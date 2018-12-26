@@ -55,7 +55,7 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
+      <Router basename="/Goaler">
         <React.Fragment>
           {this.state.loading ? <Loading/> :
             <div className="App">
