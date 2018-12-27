@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import Login from './components/login/login';
 import Loading from './components/loading/loading';
 import Header from './components/header/header';
-import Dashboard from './components/dashboard';
+import Dashboard from './components/dashboard/';
 import './App.css';
 
 const PrivateRoute = ({component: Component, user, ...rest}) => {
@@ -56,18 +56,17 @@ class App extends Component {
   render() {
     return (
       <Router basename="/Goaler">
-        <React.Fragment>
-          {this.state.loading ? <Loading/> :
-            <div className="App">
-            <Header user={this.state.user} login={this.signIn} logout={this.signOut}/>
-            <Route path="/login" render={(props)=> <Login {...props} user={this.state.user} />} />
-            <PrivateRoute user={this.state.user} exact path='/' component={Dashboard}/>
-            {/* <Link to="/private">Banana</Link>
-            <Link to="/private/2">Banana2</Link>
-            <PrivateRoute user={this.state.user} exact path='/private' component={Banana} text="React Router"/>
-            <PrivateRoute user={this.state.user} path='/private/:num' component={Banana} text="React Router" /> */}
-            </div>}
-        </React.Fragment>
+        <Loading status={this.state.loading}>
+          <div className="App">
+          <Header user={this.state.user} login={this.signIn} logout={this.signOut}/>
+          <Route path="/login" render={(props)=> <Login {...props} user={this.state.user} />} />
+          <PrivateRoute user={this.state.user} exact path='/' component={Dashboard}/>
+          {/* <Link to="/private">Banana</Link>
+          <Link to="/private/2">Banana2</Link>
+          <PrivateRoute user={this.state.user} exact path='/private' component={Banana} text="React Router"/>
+          <PrivateRoute user={this.state.user} path='/private/:num' component={Banana} text="React Router" /> */}
+          </div>
+        </Loading>
       </Router>
     );
   }

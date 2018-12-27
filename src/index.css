@@ -3,6 +3,11 @@
   padding: 0;
 }
 
+#root {
+    box-sizing: border-box;
+    height: 93vh;
+}
+
 a {
     text-decoration: none;
     color: inherit;
