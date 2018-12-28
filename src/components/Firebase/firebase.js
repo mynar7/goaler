@@ -18,7 +18,8 @@ class Firebase {
         this.db = app.firestore();
         const settings = {/* your settings... */ timestampsInSnapshots: true};
         this.db.settings(settings);
-        this.userRef = null;
+        // this.userRef = null;
+        this.goalsRef = null;
     }
     signIn = () => {
         const provider = new auth.GoogleAuthProvider();
