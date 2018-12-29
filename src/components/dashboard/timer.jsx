@@ -4,9 +4,10 @@ class Timer extends React.Component {
     constructor(props) {
         super(props);
         this.unMounting = false;
+        const timeRemaining = this.checkTime();
         this.state = {
             time: {},
-            counting: false,
+            counting: timeRemaining > 0 ? true : false,
             classes: ""
         }
     }

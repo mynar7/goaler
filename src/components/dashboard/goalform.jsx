@@ -132,7 +132,8 @@ class GoalForm extends Component {
         const dateArgs = `${this.state.date} ${this.state.time}`.split(/[- :]/).map(str => Number(str));
         dateArgs[1]--; //month is 0 indexed
         const d = new Date(...dateArgs);
-        if (this.props.initialState) {
+        console.log(this.props.initialState)
+        if (this.props.initialState.id) {
             this.props.firebase.goalsRef.doc(this.props.initialState.id)
             .update({
                 goal: this.state.name,
