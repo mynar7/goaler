@@ -21,9 +21,9 @@ class GoalForm extends Component {
         const addSixtySeconds = new Date(this.now.getTime() + 60000)
         this.today = `${this.now.getFullYear()}-${this.now.getMonth() + 1}-${this.now.getDate()}`
         this.maxDate = `${this.now.getFullYear() + 10}-${this.now.getMonth() + 1}-${this.now.getDate()}`
-        const hour = addSixtySeconds.getHours() < 10 ? '0' + addSixtySeconds.getHours() : addSixtySeconds.getHours();
-        const minute = addSixtySeconds.getMinutes() < 10 ? '0' + addSixtySeconds.getMinutes() : addSixtySeconds.getMinutes();
-        this.currentTime = `${hour}:${minute}`;
+        const hours = addSixtySeconds.getHours() < 10 ? '0' + addSixtySeconds.getHours() : addSixtySeconds.getHours();
+        const minutes = addSixtySeconds.getMinutes() < 10 ? '0' + addSixtySeconds.getMinutes() : addSixtySeconds.getMinutes();
+        this.currentTime = `${hours}:${minutes}`;
         let initialState;
         if (this.props.initialState){
             const milliseconds = this.props.initialState.date;
@@ -32,7 +32,9 @@ class GoalForm extends Component {
             if (milliseconds > this.now.getTime()) {
                 const d = new Date(milliseconds);
                 date = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
-                time = `${d.getHours()}:${d.getMinutes()}`
+                const hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+                const minutes = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes()
+                time = `${hours}:${minutes}`;
             }
             initialState = {
                 name: this.props.initialState.goal,
@@ -142,7 +144,7 @@ class GoalForm extends Component {
             })
             .then(() => {
                 this.props.toggleModal();
-                this.props.initialState.closeMenu();
+                // this.props.initialState.closeMenu();
             })
         } else {
             this.props.firebase.goalsRef.add({

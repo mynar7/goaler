@@ -46,11 +46,13 @@ class GoalItem extends Component {
             goal: this.props.goal.goal,
             date: this.props.goal.date,
             id: this.props.goal.id,
-            closeMenu: this.handleClose
+            // closeMenu: this.handleClose
         })
+        this.handleClose();
     }
     handleDelete = () =>{
         this.props.firebase.goalsRef.doc(this.props.goal.id).delete();
+        this.handleClose();
     }
 
     render() {
