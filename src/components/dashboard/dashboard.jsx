@@ -1,10 +1,10 @@
 import React from 'react';
 import Fab from '@material-ui/core/Fab';
-import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
-import Goalform from './goalform';
+import List from '@material-ui/core/List';
+import GoalForm from './goalform';
+import GoalItem from './goalitem';
 import CenteredModal from './centeredModal';
-import Timer from './timer';
 import { withFirebase } from '../Firebase';
 import './dashboard.css';
 
@@ -13,11 +13,11 @@ class Dashboard extends React.Component {
         super(props);
         this.state = {
             goalModalOpen: false,
+            modalState: undefined,
             goals: []
         };
     }
     componentDidMount = () => {
-        const that = this;
         this.props.firebase.db.collection(`users/${this.props.user.uid}/goals`)
         .onSnapshot((snapshot) => {
             const goals = [];
@@ -26,28 +26,33 @@ class Dashboard extends React.Component {
             this.setState({goals});
         })
     }
-    toggleModal = () => {
+    toggleModal = modalState => {
         this.setState({
-            goalModalOpen: !this.state.goalModalOpen
+            goalModalOpen: !this.state.goalModalOpen,
+            modalState
         })
     }
     render() {
         return (
             <div className="dash">
-                {
-                    this.state.goals
-                    .sort((goalA, goalB) => goalA.date - goalB.date)
-                    .map(goal => (
-                        <Typography key={goal.id} variant={"h6"}>
-                            {`${goal.goal}, ${goal.id}`} <Timer date={goal.date}/>
-                        </Typography>
-                    ))
-                }
+                <List>
+                    {
+                        this.state.goals
+                        .sort((goalA, goalB) => goalA.date - goalB.date)
+                        .map((goal, index) => (
+                            <GoalItem key={index} goal={goal} toggleModal={this.toggleModal}/>
+                        ))
+                    }
+                </List>
                 <CenteredModal open={this.state.goalModalOpen} 
                     onClose={this.toggleModal}
                 >
-                    <Goalform closeModal={this.toggleModal}/>
+                    <GoalForm toggleModal={this.toggleModal} initialState={this.state.modalState}/>
                 </CenteredModal>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
                 <Fab color="secondary" 
                     variant="extended" 
                     aria-label="Add" 

@@ -8,32 +8,57 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Icon from '@material-ui/icons/AddAlarm'
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { withTheme } from '@material-ui/core/styles'
 import { withFirebase } from '../Firebase';
 import './goalform.css';
 
-class Goalform extends Component {
+class GoalForm extends Component {
     constructor(props) {
         super(props);
-        console.log(props)
         this.now = new Date();
+        const addSixtySeconds = new Date(this.now.getTime() + 60000)
         this.today = `${this.now.getFullYear()}-${this.now.getMonth() + 1}-${this.now.getDate()}`
         this.maxDate = `${this.now.getFullYear() + 10}-${this.now.getMonth() + 1}-${this.now.getDate()}`
-        this.currentTime = `${this.now.getHours() < 10 ? '0' + this.now.getHours() : this.now.getHours()}:${(this.now.getMinutes() + 1) < 10 ? '0' + (this.now.getMinutes() + 1) : this.now.getMinutes()  + 1}`
-        this.state = {
-            name: "",
-            nameErr: false,
-            nameHelper: "",
-            date: this.today,
-            dateErr: false,
-            dateHelper: "",
-            time: this.currentTime,
-            timeErr: false,
-            timeHelper: "",
+        const hour = addSixtySeconds.getHours() < 10 ? '0' + addSixtySeconds.getHours() : addSixtySeconds.getHours();
+        const minute = addSixtySeconds.getMinutes() < 10 ? '0' + addSixtySeconds.getMinutes() : addSixtySeconds.getMinutes();
+        this.currentTime = `${hour}:${minute}`;
+        let initialState;
+        if (this.props.initialState){
+            const milliseconds = this.props.initialState.date;
+            let date = this.today;
+            let time = this.currentTime;
+            if (milliseconds > this.now.getTime()) {
+                const d = new Date(milliseconds);
+                date = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
+                time = `${d.getHours()}:${d.getMinutes()}`
+            }
+            initialState = {
+                name: this.props.initialState.goal,
+                nameErr: false,
+                nameHelper: "",
+                date,
+                dateErr: false,
+                dateHelper: "",
+                time,
+                timeErr: false,
+                timeHelper: "",
+            }
+        } else {
+            initialState = {
+                name: "",
+                nameErr: false,
+                nameHelper: "",
+                date: this.today,
+                dateErr: false,
+                dateHelper: "",
+                time: this.currentTime,
+                timeErr: false,
+                timeHelper: "",
+            }
         }
+        this.state = initialState;
     }
 
     handleChange = name => event => {
@@ -107,13 +132,27 @@ class Goalform extends Component {
         const dateArgs = `${this.state.date} ${this.state.time}`.split(/[- :]/).map(str => Number(str));
         dateArgs[1]--; //month is 0 indexed
         const d = new Date(...dateArgs);
-        this.props.firebase.goalsRef.add({
-            goal: this.state.name,
-            date: d.getTime()
-        })
-        .then(() => {
-            this.props.closeModal();
-        })
+        if (this.props.initialState) {
+            this.props.firebase.goalsRef.doc(this.props.initialState.id)
+            .update({
+                goal: this.state.name,
+                date: d.getTime(),
+                completed: false
+            })
+            .then(() => {
+                this.props.toggleModal();
+                this.props.initialState.closeMenu();
+            })
+        } else {
+            this.props.firebase.goalsRef.add({
+                goal: this.state.name,
+                date: d.getTime(),
+                completed: false
+            })
+            .then(() => {
+                this.props.toggleModal();
+            })
+        }
 
     }
 
@@ -133,7 +172,7 @@ class Goalform extends Component {
                     title="Add a goal"
                     // subheader="With Chocolates"
                     action={
-                        <IconButton onClick={this.props.closeModal} tabIndex={-1}>
+                        <IconButton onClick={this.props.toggleModal} tabIndex={-1}>
                             <CloseIcon/>
                         </IconButton>
                     }
@@ -192,11 +231,11 @@ class Goalform extends Component {
                 </CardContent>
                 <CardActions className="row right">
                     <Button onClick={this.handleSubmit}>Add Goal</Button>
-                    <Button onClick={this.props.closeModal}>Close</Button>
+                    <Button onClick={this.props.toggleModal}>Close</Button>
                 </CardActions>
             </Card>
         )
     }
 }
 
-export default withTheme()(withFirebase(Goalform));
+export default withTheme()(withFirebase(GoalForm));

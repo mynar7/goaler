@@ -3,38 +3,44 @@ import './timer.css';
 class Timer extends React.Component {
     constructor(props) {
         super(props);
-        this.classes = "";
-        const future = this.props.date;
-        const now = Date.now();
-        const timeRemaining = future - now;
-        let counting;
-        timeRemaining > 0 ? counting = true : counting = false;
+        this.unMounting = false;
         this.state = {
             time: {},
-            counting: counting
+            counting: false,
+            classes: ""
         }
     }
-
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.date !== this.props.date) {
+            this.updateTime();
+        }
+    }
     componentDidMount() {
         if (this.props.date && this.state.counting) {
             this.updateTime();
         }
     }
-
-    updateTime = () => {
-        // var future = Date.parse("December 31, 2019");
+    checkTime = () => {
         const future = this.props.date;
-        const now = Date.now();
+        const d = new Date();
+        const now = d.getTime();
         const timeRemaining = future - now;
+        return timeRemaining;
+    }
+    updateTime = () => {
+        if (this.unMounting) return;
+        // var future = Date.parse("December 31, 2019");
+        const timeRemaining = this.checkTime();
         if (timeRemaining < 1000) {
-            this.classes = "timer-strike_animate";
             return this.setState({
                 time: {
                     days: "00",
                     hours: "00",
                     minutes: "00",
                     seconds: "00"
-                }
+                },
+                counting: false,
+                classes: "timer-strike_animate"
             });
         }
         let seconds = Math.floor(timeRemaining / 1000) % 60;
@@ -48,9 +54,14 @@ class Timer extends React.Component {
         this.setState({
             time: {
                 days, hours, minutes, seconds
-            }
+            },
+            counting: true
         });
         requestAnimationFrame(this.updateTime);
+    }
+
+    componentWillUnmount() {
+        this.unMounting = true;
     }
 
     render() {
@@ -58,7 +69,7 @@ class Timer extends React.Component {
             <React.Fragment>
                 {
                     this.state.counting
-                    ? <span className={this.classes}>
+                    ? <span className={this.state.classes}>
                         {`${this.state.time.days}:` +
                             `${this.state.time.hours}:` +
                             `${this.state.time.minutes}:` +
