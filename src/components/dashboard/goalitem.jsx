@@ -18,6 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { withTheme } from '@material-ui/core/styles';
 import { withFirebase } from '../Firebase';
 import Timer from './timer';
+import './goalitem.css';
 
 class GoalItem extends Component {
     constructor(props) {
@@ -62,9 +63,12 @@ class GoalItem extends Component {
         return (
             <ListItem button>
                 <ListItemText
+                    className={this.props.goal.completed ? "goalitem-strike" : ""}
                     primary={`${this.props.goal.goal}`}
-                    secondary={<Timer date={this.props.goal.date} />}
-                    primaryTypographyProps={{ style: { width: '80%' } }}
+                    secondary={!this.props.goal.completed && <Timer date={this.props.goal.date} />}
+                    primaryTypographyProps={{ 
+                        style: { width: '80%' }
+                    }}
                     secondaryTypographyProps={{ color: 'error' }}
                 />
                 <ListItemSecondaryAction>

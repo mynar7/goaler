@@ -37,7 +37,16 @@ class Dashboard extends React.Component {
                 <List>
                     {
                         this.state.goals
-                        .sort((goalA, goalB) => goalA.date - goalB.date)
+                        .sort((goalA, goalB) => {
+                            const diff = goalA.date - goalB.date
+                            if (goalA.completed === goalB.completed) {
+                                return diff;
+                            } else if (goalA.completed) {
+                                return 1;
+                            } else {
+                                return -1;
+                            }
+                        })
                         .map((goal, index) => (
                             <GoalItem key={index} goal={goal} toggleModal={this.toggleModal}/>
                         ))
