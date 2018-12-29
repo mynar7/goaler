@@ -1,0 +1,16 @@
+.timer-strike_animate {
+    animation: strike 2s ease 0s 1 forwards;
+}
+  
+.timer-strike {
+    /* text-decoration: line-through red; */
+    color: red;
+}
+  
+@keyframes strike {
+    100% {
+        /* opacity: 0; */
+        /* text-decoration: line-through red; */
+        color: red;
+    }
+}

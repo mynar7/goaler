@@ -74,10 +74,9 @@ class Goalform extends Component {
         }
         //get current date and time when form submits
         const now = new Date();
-        const datetime = new Date(Date.parse(this.state.date + " " + this.state.time));
-        // console.log(this.state.time)
-        // console.log({now, datetime});
-        // console.log({now: now.getTime(), form: datetime.getTime(), diff: datetime.getTime() - now.getTime()});
+        const dateArgs = `${this.state.date} ${this.state.time}`.split(/[- :]/).map(str => Number(str));
+        dateArgs[1]--; //month is 0 indexed
+        const datetime = new Date(...dateArgs);
         // check if time/date is > now
         if (datetime.getTime() < now.getTime()) {
             if (datetime.toDateString() !== now.toDateString()) {
@@ -105,7 +104,9 @@ class Goalform extends Component {
 
     handleSubmit = () => {
         if (this.validate()) return;
-        const d = new Date(Date.parse(this.state.date + " " + this.state.time))
+        const dateArgs = `${this.state.date} ${this.state.time}`.split(/[- :]/).map(str => Number(str));
+        dateArgs[1]--; //month is 0 indexed
+        const d = new Date(...dateArgs);
         this.props.firebase.goalsRef.add({
             goal: this.state.name,
             date: d.getTime()

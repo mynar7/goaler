@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import Goalform from './goalform';
 import CenteredModal from './centeredModal';
+import Timer from './timer';
 import { withFirebase } from '../Firebase';
 import './dashboard.css';
 
@@ -11,7 +12,7 @@ class Dashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            goalModalOpen: true,
+            goalModalOpen: false,
             goals: []
         };
     }
@@ -34,9 +35,11 @@ class Dashboard extends React.Component {
         return (
             <div className="dash">
                 {
-                    this.state.goals.map(goal => (
-                        <Typography key={goal.id} variant={"h6"} align="center">
-                            {`${goal.goal}, ${goal.date}, ${goal.id}`}
+                    this.state.goals
+                    .sort((goalA, goalB) => goalA.date - goalB.date)
+                    .map(goal => (
+                        <Typography key={goal.id} variant={"h6"}>
+                            {`${goal.goal}, ${goal.id}`} <Timer date={goal.date}/>
                         </Typography>
                     ))
                 }
