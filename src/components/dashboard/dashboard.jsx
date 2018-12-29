@@ -22,14 +22,13 @@ class Dashboard extends React.Component {
         .onSnapshot((snapshot) => {
             const goals = [];
             snapshot.forEach(doc => goals.push({id: doc.id, ...doc.data()}))
-            // console.log(goals);
             this.setState({goals});
         })
     }
     toggleModal = modalState => {
         this.setState({
             goalModalOpen: !this.state.goalModalOpen,
-            modalState: modalState.id ? modalState : null
+            modalState: modalState && modalState.id ? modalState : null
         })
     }
     render() {

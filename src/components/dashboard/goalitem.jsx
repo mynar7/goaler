@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -59,7 +60,7 @@ class GoalItem extends Component {
         const { anchorEl } = this.state;
         const open = Boolean(anchorEl);
         return (
-            <ListItem>
+            <ListItem button>
                 <ListItemText
                     primary={`${this.props.goal.goal}`}
                     secondary={<Timer date={this.props.goal.date} />}
