@@ -1,5 +1,6 @@
 .timer-strike_animate {
-    animation: strike 2s ease 0s 1 forwards;
+    /* animation: strike 2s ease 0s 1 forwards; */
+    color: red;
 }
   
 .timer-strike {

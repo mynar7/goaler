@@ -41,7 +41,7 @@ class Timer extends React.Component {
                     seconds: "00"
                 },
                 counting: false,
-                classes: "timer-strike_animate"
+                // classes: "timer-strike_animate"
             });
         }
         let seconds = Math.floor(timeRemaining / 1000) % 60;
