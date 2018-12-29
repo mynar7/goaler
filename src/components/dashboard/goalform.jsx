@@ -25,7 +25,7 @@ class GoalForm extends Component {
         const minutes = addSixtySeconds.getMinutes() < 10 ? '0' + addSixtySeconds.getMinutes() : addSixtySeconds.getMinutes();
         this.currentTime = `${hours}:${minutes}`;
         let initialState;
-        if (this.props.initialState){
+        if (this.props.initialState) {
             const milliseconds = this.props.initialState.date;
             let date = this.today;
             let time = this.currentTime;
@@ -62,7 +62,6 @@ class GoalForm extends Component {
         }
         this.state = initialState;
     }
-
     handleChange = name => event => {
         this.setState({
             [name]: event.target.value,
@@ -131,10 +130,10 @@ class GoalForm extends Component {
 
     handleSubmit = () => {
         if (this.validate()) return;
-        const dateArgs = `${this.state.date} ${this.state.time}`.split(/[- :]/).map(str => Number(str));
+        const dateArgs = `${this.state.date} ${this.state.time}`.split(/[- :]/)
+        .map(str => Number(str));
         dateArgs[1]--; //month is 0 indexed
         const d = new Date(...dateArgs);
-        console.log(this.props.initialState)
         if (this.props.initialState.id) {
             this.props.firebase.goalsRef.doc(this.props.initialState.id)
             .update({
@@ -233,8 +232,8 @@ class GoalForm extends Component {
                     </Grid>
                 </CardContent>
                 <CardActions className="row right">
-                    <Button onClick={this.handleSubmit}>Add Goal</Button>
-                    <Button onClick={this.props.toggleModal}>Close</Button>
+                    <Button onClick={this.handleSubmit}>{this.props.initialState ? "Update" : "Add"} Goal</Button>
+                    <Button onClick={this.props.toggleModal}>Cancel</Button>
                 </CardActions>
             </Card>
         )

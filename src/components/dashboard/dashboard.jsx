@@ -29,7 +29,7 @@ class Dashboard extends React.Component {
     toggleModal = modalState => {
         this.setState({
             goalModalOpen: !this.state.goalModalOpen,
-            modalState
+            modalState: modalState.id ? modalState : null
         })
     }
     render() {
