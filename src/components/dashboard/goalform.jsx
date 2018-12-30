@@ -18,12 +18,11 @@ class GoalForm extends Component {
     constructor(props) {
         super(props);
         this.now = new Date();
-        const addSixtySeconds = new Date(this.now.getTime() + 60000)
-        this.today = `${this.now.getFullYear()}-${this.now.getMonth() + 1}-${this.now.getDate()}`
-        this.maxDate = `${this.now.getFullYear() + 10}-${this.now.getMonth() + 1}-${this.now.getDate()}`
-        const hours = addSixtySeconds.getHours() < 10 ? '0' + addSixtySeconds.getHours() : addSixtySeconds.getHours();
-        const minutes = addSixtySeconds.getMinutes() < 10 ? '0' + addSixtySeconds.getMinutes() : addSixtySeconds.getMinutes();
-        this.currentTime = `${hours}:${minutes}`;
+        const addSixtySeconds = new Date(this.now.getTime() + 60000);
+        const leadingZero = num => num < 10 ? "0" + num : num
+        this.today = `${this.now.getFullYear()}-${leadingZero(this.now.getMonth() + 1)}-${leadingZero(this.now.getDate())}`
+        this.maxDate = `${this.now.getFullYear() + 10}-${leadingZero(this.now.getMonth() + 1)}-${leadingZero(this.now.getDate())}`
+        this.currentTime = `${leadingZero(addSixtySeconds.getHours())}:${leadingZero(addSixtySeconds.getMinutes())}`;
         let initialState;
         if (this.props.initialState) {
             const milliseconds = this.props.initialState.date;
@@ -31,10 +30,8 @@ class GoalForm extends Component {
             let time = this.currentTime;
             if (milliseconds > this.now.getTime()) {
                 const d = new Date(milliseconds);
-                date = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
-                const hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
-                const minutes = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes()
-                time = `${hours}:${minutes}`;
+                date = `${d.getFullYear()}-${leadingZero(d.getMonth() + 1)}-${leadingZero(d.getDate())}`
+                time = `${leadingZero(d.getHours())}:${leadingZero(d.getMinutes())}`;
             }
             initialState = {
                 name: this.props.initialState.goal,
