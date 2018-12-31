@@ -18,6 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { withTheme } from '@material-ui/core/styles';
 import { withFirebase } from '../Firebase';
 import Timer from './timer';
+import TimeDue from './timedue';
 import './goalitem.css';
 
 class GoalItem extends Component {
@@ -25,6 +26,7 @@ class GoalItem extends Component {
         super(props);
         this.state = {
             anchorEl: null,
+            timeView: true
         };
     }
     // componentDidUpdate() {
@@ -57,12 +59,20 @@ class GoalItem extends Component {
         this.handleClose();
     }
 
+    toggleTimeView = () => {
+        this.setState({
+            timeView: !this.state.timeView
+        })
+    }
+
     render() {
         const { anchorEl } = this.state;
         const open = Boolean(anchorEl);
         return (
-            <ListItem button>
-                <ListItemText
+            <ListItem button onClick={this.toggleTimeView}>
+                {
+                    this.state.timeView
+                    ? <ListItemText
                     className={this.props.goal.completed ? "goalitem-strike" : ""}
                     primary={`${this.props.goal.goal}`}
                     secondary={!this.props.goal.completed && <Timer date={this.props.goal.date} />}
@@ -70,7 +80,18 @@ class GoalItem extends Component {
                         style: { width: '80%' }
                     }}
                     secondaryTypographyProps={{ color: 'error' }}
-                />
+                    />
+                    : <ListItemText
+                    className={this.props.goal.completed ? "goalitem-strike" : ""}
+                    primary={`${this.props.goal.goal}`}
+                    secondary={!this.props.goal.completed && <TimeDue date={this.props.goal.date}/>}
+                    primaryTypographyProps={{ 
+                        style: { width: '80%' }
+                    }}
+                    secondaryTypographyProps={{ color: 'error' }}
+                    />
+
+                }
                 <ListItemSecondaryAction>
                     <IconButton onClick={this.handleCompleteToggle}>
                         {
