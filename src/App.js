@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { withFirebase } from './components/Firebase';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import Drawer from '@material-ui/core/Drawer';
 import Login from './components/login/login';
 import Loading from './components/loading/loading';
 import Header from './components/header/header';
+import MainMenu from './components/mainmenu/mainmenu';
 import Dashboard from './components/dashboard/';
+import Settings from './components/settings/settings';
 import './App.css';
 
 const PrivateRoute = ({component: Component, user, ...rest}) => {
@@ -25,7 +28,8 @@ class App extends Component {
     this.state = {
       user: null,
       loading: true,
-      from: null
+      from: null,
+      drawer: false
     }
   }
 
@@ -51,6 +55,13 @@ class App extends Component {
 
   signOut = () => {
     this.props.firebase.logout();
+    this.toggleDrawer();
+  }
+
+  toggleDrawer = () => {
+    this.setState({
+      drawer: !this.state.drawer
+    })
   }
 
   render() {
@@ -58,9 +69,13 @@ class App extends Component {
       <Router basename="/Goaler">
         <Loading status={this.state.loading}>
           <div className="App">
-          <Header user={this.state.user} login={this.signIn} logout={this.signOut}/>
+          <Header user={this.state.user} login={this.signIn} toggleDrawer={this.toggleDrawer}/>
+          <Drawer anchor={"right"} open={this.state.drawer} onClose={this.toggleDrawer}>
+            <MainMenu logout={this.signOut} toggleDrawer={this.toggleDrawer}/>
+          </Drawer>
           <Route path="/login" render={(props)=> <Login {...props} user={this.state.user} />} />
           <PrivateRoute user={this.state.user} exact path='/' component={Dashboard}/>
+          <PrivateRoute user={this.state.user} exact path='/settings' component={Settings}/>
           {/* <Link to="/private">Banana</Link>
           <Link to="/private/2">Banana2</Link>
           <PrivateRoute user={this.state.user} exact path='/private' component={Banana} text="React Router"/>

@@ -4,6 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 import List from '@material-ui/core/List';
 import GoalForm from './goalform';
 import GoalItem from './goalitem';
+import Clock from './clock';
 import CenteredModal from './centeredModal';
 import { withFirebase } from '../Firebase';
 import './dashboard.css';
@@ -34,6 +35,9 @@ class Dashboard extends React.Component {
     render() {
         return (
             <div className="dash">
+                <div className="dash-clock">
+                    <Clock/>
+                </div>
                 <List>
                     {
                         this.state.goals
@@ -47,8 +51,8 @@ class Dashboard extends React.Component {
                                 return -1;
                             }
                         })
-                        .map((goal, index) => (
-                            <GoalItem key={index} goal={goal} toggleModal={this.toggleModal}/>
+                        .map(goal => (
+                            <GoalItem key={goal.id} goal={goal} toggleModal={this.toggleModal}/>
                         ))
                     }
                 </List>
