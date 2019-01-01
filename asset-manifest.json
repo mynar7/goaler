@@ -1,7 +1,7 @@
 {
   "main.css": "/Goaler/static/css/main.3bfe2abd.chunk.css",
-  "main.js": "/Goaler/static/js/main.2d31573c.chunk.js",
-  "main.js.map": "/Goaler/static/js/main.2d31573c.chunk.js.map",
+  "main.js": "/Goaler/static/js/main.55c8f638.chunk.js",
+  "main.js.map": "/Goaler/static/js/main.55c8f638.chunk.js.map",
   "static/css/1.6ee3cc67.chunk.css": "/Goaler/static/css/1.6ee3cc67.chunk.css",
   "static/js/1.906e4a1f.chunk.js": "/Goaler/static/js/1.906e4a1f.chunk.js",
   "static/js/1.906e4a1f.chunk.js.map": "/Goaler/static/js/1.906e4a1f.chunk.js.map",
@@ -11,6 +11,6 @@
   "static/css/main.3bfe2abd.chunk.css.map": "/Goaler/static/css/main.3bfe2abd.chunk.css.map",
   "static/css/1.6ee3cc67.chunk.css.map": "/Goaler/static/css/1.6ee3cc67.chunk.css.map",
   "index.html": "/Goaler/index.html",
-  "precache-manifest.eada7901be889f53cbc049e17230fe47.js": "/Goaler/precache-manifest.eada7901be889f53cbc049e17230fe47.js",
+  "precache-manifest.52869614a713a5b9eb236b508b6c1bb1.js": "/Goaler/precache-manifest.52869614a713a5b9eb236b508b6c1bb1.js",
   "service-worker.js": "/Goaler/service-worker.js"
 }
