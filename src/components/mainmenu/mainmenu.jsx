@@ -6,6 +6,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ExitIcon from '@material-ui/icons/ExitToApp'
 import SettingsIcon from '@material-ui/icons/Settings'
 import GoalsIcon from '@material-ui/icons/DoneAll'
+import InfoIcon from '@material-ui/icons/Info'
 import ListItemText from '@material-ui/core/ListItemText';
 import { withRouter } from 'react-router-dom';
 import './mainmenu.css'
@@ -24,6 +25,12 @@ class MainMenu extends Component {
     render() {
         return (
             <List className="mainmenu">
+                <ListItem button onClick={() => this.navigate('/about')}>
+                    <ListItemIcon>
+                        <InfoIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="About" />
+                </ListItem>
                 <ListItem button onClick={() => this.navigate('/')}>
                     <ListItemIcon>
                         <GoalsIcon/>

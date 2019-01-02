@@ -8,6 +8,7 @@ import Header from './components/header/header';
 import MainMenu from './components/mainmenu/mainmenu';
 import Dashboard from './components/dashboard/';
 import Settings from './components/settings/settings';
+import About from './components/about/about';
 import './App.css';
 
 const PrivateRoute = ({component: Component, user, ...rest}) => {
@@ -74,6 +75,7 @@ class App extends Component {
             <MainMenu logout={this.signOut} toggleDrawer={this.toggleDrawer}/>
           </Drawer>
           <Route path="/login" render={(props)=> <Login {...props} user={this.state.user} />} />
+          <PrivateRoute user={this.state.user} exact path='/about' component={About}/>
           <PrivateRoute user={this.state.user} exact path='/' component={Dashboard}/>
           <PrivateRoute user={this.state.user} exact path='/settings' component={Settings}/>
           {/* <Link to="/private">Banana</Link>
