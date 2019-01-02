@@ -125,12 +125,15 @@ class GoalItem extends Component {
                         open={open}
                         onClose={this.handleClose}
                     >
-                        <MenuItem onClick={this.triggerModal}>
-                            <ListItemIcon>
-                                <EditIcon color={'inherit'}/>
-                            </ListItemIcon>
-                            <ListItemText inset primary="Edit" />
-                        </MenuItem>
+                        {
+                            !this.props.goal.completed &&
+                            <MenuItem onClick={this.triggerModal}>
+                                <ListItemIcon>
+                                    <EditIcon color={'inherit'}/>
+                                </ListItemIcon>
+                                <ListItemText inset primary="Edit" />
+                            </MenuItem>
+                        }
                         <MenuItem onClick={this.handleDelete}>
                             <ListItemIcon>
                                 <DeleteIcon nativeColor={this.props.theme.palette.warn[500]}/>
