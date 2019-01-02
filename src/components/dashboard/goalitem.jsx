@@ -15,6 +15,8 @@ import { withTheme } from '@material-ui/core/styles';
 import { withFirebase } from '../Firebase';
 import Timer from './timer';
 import TimeDue from './timedue';
+import TimeStamp from './timestamp';
+import TimerCompleted from './timercompleted';
 import './goalitem.css';
 
 class GoalItem extends Component {
@@ -36,9 +38,12 @@ class GoalItem extends Component {
         this.setState({ anchorEl: null });
     };
 
-    handleCompleteToggle = () =>{
+    handleCompleteToggle = () => {
+        const d = new Date();
+        const ms = d.getTime();
         this.props.firebase.goalsRef.doc(this.props.goal.id).update({
-            completed: !this.props.goal.completed
+            completed: !this.props.goal.completed,
+            completedAt: !this.props.goal.completed ? ms : null
         });
     }
     triggerModal = () => {
@@ -69,20 +74,35 @@ class GoalItem extends Component {
                 {
                     this.state.timeView
                     ? <ListItemText
-                    className={this.props.goal.completed ? "goalitem-strike" : ""}
-                    primary={`${this.props.goal.goal}`}
-                    secondary={!this.props.goal.completed && <Timer date={this.props.goal.date} />}
-                    primaryTypographyProps={{ 
-                        style: { width: '80%' }
+                    // className={}
+                    primary={this.props.goal.goal}
+                    secondary={this.props.goal.completed
+                        ? <TimeStamp completed={this.props.goal.completedAt} />
+                        : <Timer date={this.props.goal.date} />
+                    }
+                    primaryTypographyProps={{
+                        style: { width: '80%' },
+                        className: this.props.goal.completed ? "goalitem-strike" : ""
                     }}
                     secondaryTypographyProps={{ color: 'error' }}
                     />
                     : <ListItemText
-                    className={this.props.goal.completed ? "goalitem-strike" : ""}
-                    primary={`${this.props.goal.goal}`}
-                    secondary={!this.props.goal.completed && <TimeDue date={this.props.goal.date}/>}
-                    primaryTypographyProps={{ 
-                        style: { width: '80%' }
+                    // className={this.props.goal.completed ? "goalitem-strike" : ""}
+                    primary={this.props.goal.goal}
+                    secondary={this.props.goal.completed
+                        ? <React.Fragment>
+                            {/* <TimeStamp completed={this.props.goal.completedAt} /><br/> */}
+                            {/* <TimeStamp updated={this.props.goal.updatedAt} created={this.props.goal.createdAt}/><br/> */}
+                            <TimerCompleted completed={this.props.goal.completedAt} updated={this.props.goal.updatedAt}/>
+                        </React.Fragment>
+                        :<React.Fragment>
+                            {/* <TimeStamp updated={this.props.goal.updatedAt} created={this.props.goal.createdAt}/><br/> */}
+                            <TimeDue date={this.props.goal.date}/><br/>
+                        </React.Fragment>
+                    }
+                    primaryTypographyProps={{
+                        style: { width: '80%' },
+                        className: this.props.goal.completed ? "goalitem-strike" : ""
                     }}
                     secondaryTypographyProps={{ color: 'error' }}
                     />
@@ -117,7 +137,7 @@ class GoalItem extends Component {
                             </ListItemIcon>
                             <ListItemText inset primary="Delete" />
                         </MenuItem>
-                        
+
                     </Menu>
                 </ListItemSecondaryAction>
             </ListItem>

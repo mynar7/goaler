@@ -103,13 +103,13 @@ class GoalForm extends Component {
         // check if time/date is > now
         if (datetime.getTime() < now.getTime()) {
             if (datetime.toDateString() !== now.toDateString()) {
-                dateErr = true; 
+                dateErr = true;
                 dateHelper = "Date must be in future";
             } else  {
                 timeErr = true;
                 timeHelper = "Time must be in future";
             }
-        } 
+        }
         this.setState({
             nameErr,
             nameHelper,
@@ -131,12 +131,15 @@ class GoalForm extends Component {
         .map(str => Number(str));
         dateArgs[1]--; //month is 0 indexed
         const d = new Date(...dateArgs);
+        const now = new Date();
+        const n = now.getTime();
         if (this.props.initialState) {
             this.props.firebase.goalsRef.doc(this.props.initialState.id)
             .update({
                 goal: this.state.name,
                 date: d.getTime(),
-                completed: false
+                completed: false,
+                updatedAt: n
             })
             .then(() => {
                 this.props.toggleModal();
@@ -146,7 +149,9 @@ class GoalForm extends Component {
             this.props.firebase.goalsRef.add({
                 goal: this.state.name,
                 date: d.getTime(),
-                completed: false
+                completed: false,
+                createdAt: n,
+                updatedAt: n
             })
             .then(() => {
                 this.props.toggleModal();
@@ -160,7 +165,7 @@ class GoalForm extends Component {
             <Card className="goalform">
                 <CardHeader
                     avatar={
-                        <Avatar 
+                        <Avatar
                         style={{
                             backgroundColor: this.props.theme.palette.secondary.main,
                             color: this.props.theme.palette.text.primary
