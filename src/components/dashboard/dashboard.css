@@ -6,12 +6,24 @@
     margin: auto;
 }
 
-.dash-clock {
+.dash-items {
     display: flex;
     /* justify-content: center; */
     align-items: center;
     margin: 11px 32px 11px 16px;
     /* width: 100%; */
+}
+
+.dash-item {
+    margin: 0 5px;
+}
+
+.dash-item:first-child {
+    margin-left: 0;
+}
+
+.dash-item:last-child {
+    margin-right: 0;
 }
 
 #dash-addBtn {

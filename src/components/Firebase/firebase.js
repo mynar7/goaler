@@ -34,6 +34,7 @@ class Firebase {
     }
     initializeUser = (uid) => {
         this.goalsRef = this.db.collection(`users/${uid}/goals`);
+        this.settingsRef = this.db.collection(`users/${uid}/settings`)
         // this.db.collection(`users/${uid}/goals/${goalid}/subgoals`);
         // this.goalsRef = this.userRef.collection("goals");
     }

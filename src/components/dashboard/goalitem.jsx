@@ -41,10 +41,24 @@ class GoalItem extends Component {
     handleCompleteToggle = () => {
         const d = new Date();
         const ms = d.getTime();
+        const newCompletedStatus = !this.props.goal.completed
         this.props.firebase.goalsRef.doc(this.props.goal.id).update({
-            completed: !this.props.goal.completed,
-            completedAt: !this.props.goal.completed ? ms : null
+            completed: newCompletedStatus,
+            completedAt: newCompletedStatus ? ms : null
         });
+        const countRef = this.props.firebase.settingsRef.doc('completedCount');
+        countRef.get().then(doc => {
+            const data = doc.data();
+            let newCount;
+            newCompletedStatus
+                ? newCount = data.count + 1
+                : newCount = data.count - 1
+            if (newCount < 0) newCount = 0;
+            countRef.set({
+                count: newCount
+            })
+        })
+
     }
     triggerModal = () => {
         this.props.toggleModal({

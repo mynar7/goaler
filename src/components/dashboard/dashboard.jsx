@@ -5,6 +5,7 @@ import List from '@material-ui/core/List';
 import GoalForm from './goalform';
 import GoalItem from './goalitem';
 import Clock from './clock';
+import CompletedCounter from './completedcounter';
 import CenteredModal from './centeredModal';
 import { withFirebase } from '../Firebase';
 import './dashboard.css';
@@ -15,7 +16,8 @@ class Dashboard extends React.Component {
         this.state = {
             goalModalOpen: false,
             modalState: undefined,
-            goals: []
+            goals: [],
+            settings: {}
         };
     }
     componentDidMount = () => {
@@ -24,6 +26,13 @@ class Dashboard extends React.Component {
             const goals = [];
             snapshot.forEach(doc => goals.push({id: doc.id, ...doc.data()}))
             this.setState({goals});
+        })
+        this.props.firebase.db.collection(`users/${this.props.user.uid}/settings`)
+        .onSnapshot((snapshot) => {
+            const settings = {};
+            // snapshot.forEach(doc => settings.push({id: doc.id, ...doc.data()}))
+            snapshot.forEach(doc => settings[doc.id] = {id: doc.id, ...doc.data()});
+            this.setState({settings});
         })
     }
     toggleModal = modalState => {
@@ -35,8 +44,13 @@ class Dashboard extends React.Component {
     render() {
         return (
             <div className="dash">
-                <div className="dash-clock">
-                    <Clock/>
+                <div className="dash-items">
+                    <div className="dash-item">
+                        <Clock />
+                    </div>
+                    <div className="dash-item">
+                        <CompletedCounter uid={this.props.user.uid}/>
+                    </div>
                 </div>
                 <List>
                     {
@@ -56,7 +70,7 @@ class Dashboard extends React.Component {
                         ))
                     }
                 </List>
-                <CenteredModal open={this.state.goalModalOpen} 
+                <CenteredModal open={this.state.goalModalOpen}
                     onClose={this.toggleModal}
                 >
                     <GoalForm toggleModal={this.toggleModal} initialState={this.state.modalState}/>
@@ -65,9 +79,9 @@ class Dashboard extends React.Component {
                 <br/>
                 <br/>
                 <br/>
-                <Fab color="secondary" 
-                    variant="extended" 
-                    aria-label="Add" 
+                <Fab color="secondary"
+                    variant="extended"
+                    aria-label="Add"
                     id="dash-addBtn"
                     onClick={this.toggleModal}
                 >

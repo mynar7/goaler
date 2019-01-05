@@ -63,6 +63,8 @@ class TimeStamp extends Component {
                         <span>{this.state.updated}</span>
                     </React.Fragment>
                 )
+            default:
+                return;
         }
     }
 

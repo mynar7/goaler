@@ -12,10 +12,9 @@ import { withRouter } from 'react-router-dom';
 import './mainmenu.css'
 
 class MainMenu extends Component {
-    constructor(props) {
-        super(props);
-        console.log(props)
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
     navigate = route => {
         this.props.history.push(route);
