@@ -1,10 +1,10 @@
 self.__precacheManifest = [
   {
-    "revision": "210a7c781f5a354a0e4985656ab456d9",
-    "url": "/Goaler/static/media/roboto-latin-300italic.210a7c78.woff"
+    "revision": "d69924b98acd849cdeba9fbff3f88ea6",
+    "url": "/Goaler/static/media/roboto-latin-300italic.d69924b9.woff2"
   },
   {
-    "revision": "e38f93e0ee00d96cd4a6",
+    "revision": "79dce7a105ebd195e73b",
     "url": "/Goaler/static/css/main.3710fcb6.chunk.css"
   },
   {
@@ -56,20 +56,20 @@ self.__precacheManifest = [
     "url": "/Goaler/static/media/roboto-latin-100italic.d704bb3d.woff"
   },
   {
-    "revision": "d69924b98acd849cdeba9fbff3f88ea6",
-    "url": "/Goaler/static/media/roboto-latin-300italic.d69924b9.woff2"
+    "revision": "a1471d1d6431c893582a5f6a250db3f9",
+    "url": "/Goaler/static/media/roboto-latin-300.a1471d1d.woff"
   },
   {
-    "revision": "e38f93e0ee00d96cd4a6",
-    "url": "/Goaler/static/js/main.e38f93e0.chunk.js"
+    "revision": "79dce7a105ebd195e73b",
+    "url": "/Goaler/static/js/main.79dce7a1.chunk.js"
+  },
+  {
+    "revision": "210a7c781f5a354a0e4985656ab456d9",
+    "url": "/Goaler/static/media/roboto-latin-300italic.210a7c78.woff"
   },
   {
     "revision": "bafb105baeb22d965c70fe52ba6b49d9",
     "url": "/Goaler/static/media/roboto-latin-400.bafb105b.woff"
-  },
-  {
-    "revision": "a1471d1d6431c893582a5f6a250db3f9",
-    "url": "/Goaler/static/media/roboto-latin-300.a1471d1d.woff"
   },
   {
     "revision": "d8bcbe724fd6f4ba44d0ee6a2675890f",
@@ -92,16 +92,16 @@ self.__precacheManifest = [
     "url": "/Goaler/static/media/roboto-latin-500italic.ffcc050b.woff"
   },
   {
-    "revision": "846d1890aee87fde5d8ced8eba360c3a",
-    "url": "/Goaler/static/media/roboto-latin-700italic.846d1890.woff"
+    "revision": "010c1aeee3c6d1cbb1d5761d80353823",
+    "url": "/Goaler/static/media/roboto-latin-700italic.010c1aee.woff2"
   },
   {
     "revision": "cf6613d1adf490972c557a8e318e0868",
     "url": "/Goaler/static/media/roboto-latin-700.cf6613d1.woff"
   },
   {
-    "revision": "010c1aeee3c6d1cbb1d5761d80353823",
-    "url": "/Goaler/static/media/roboto-latin-700italic.010c1aee.woff2"
+    "revision": "846d1890aee87fde5d8ced8eba360c3a",
+    "url": "/Goaler/static/media/roboto-latin-700italic.846d1890.woff"
   },
   {
     "revision": "8c2ade503b34e31430d6c98aa29a52a3",
@@ -116,7 +116,7 @@ self.__precacheManifest = [
     "url": "/Goaler/static/css/1.90860048.chunk.css"
   },
   {
-    "revision": "24aee698a490909c1b577f4a02acbafa",
+    "revision": "7786a1613ecd6a4f9186f64cbc698446",
     "url": "/Goaler/index.html"
   }
 ];
