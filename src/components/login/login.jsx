@@ -1,15 +1,58 @@
 import React, { Component } from 'react';
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import LogoIcon from '@material-ui/icons/Beenhere';
+import Button from '@material-ui/core/Button';
+
+import './login.css';
 
 class Login extends Component {
     componentDidMount() {
-        console.log(this.props)
+        // console.log(this.props)
         if (this.props.user) {
             this.props.history.push('/')
         }
     }
     render() {
         return (
-            <h2>Login works!</h2>
+            <React.Fragment>
+
+            <Card className="login-titleCard">
+                <CardMedia
+                    component="img"
+                    alt="Inspirational Goal Image"
+                    image="/assets/darts.jpeg"/>
+                <div className="login-titleCard_container">
+                    <Typography variant="h2" className="login-titleCard_title" gutterBottom>
+                        Welcome to <strong>GOALER</strong>
+                    </Typography>
+                    <Typography variant="h5" align="right" className="login-titleCard_subtitle" gutterBottom>
+                        Track your goals.
+                    </Typography>
+                    <Typography variant="h5" align="right" className="login-titleCard_subtitle" gutterBottom>
+                        Get more things done.
+                    </Typography>
+                    <Typography variant="h5" align="right" className="login-titleCard_actionCall" gutterBottom>
+                        <Button variant="contained" color="secondary">Sign in</Button>
+                        &nbsp;with Google
+                    </Typography>
+                </div>
+            </Card>
+            {/* <Grid container justify={"center"} alignItems={"center"}>
+                <Grid item xs={12} lg={8}>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h5">
+                                Welcome to Goaler
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid> */}
+            </React.Fragment>
         )
     }
 }
