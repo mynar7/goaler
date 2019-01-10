@@ -37,7 +37,7 @@ class Login extends Component {
                         Get more things done.
                     </Typography>
                     <Typography variant="h5" align="right" className="login-titleCard_actionCall" gutterBottom>
-                        <Button variant="contained" color="secondary">Sign in</Button>
+                        <Button variant="contained" color="secondary" onClick={this.props.login}>Sign in</Button>
                         &nbsp;with Google
                     </Typography>
                 </div>

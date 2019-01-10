@@ -74,7 +74,7 @@ class App extends Component {
           <Drawer anchor={"right"} open={this.state.drawer} onClose={this.toggleDrawer}>
             <MainMenu logout={this.signOut} toggleDrawer={this.toggleDrawer}/>
           </Drawer>
-          <Route path="/login" render={(props)=> <Login {...props} user={this.state.user} />} />
+          <Route path="/login" render={(props)=> <Login {...props} user={this.state.user} login={this.signIn} />} />
           <PrivateRoute user={this.state.user} exact path='/about' component={About}/>
           <PrivateRoute user={this.state.user} exact path='/' component={Dashboard}/>
           <PrivateRoute user={this.state.user} exact path='/settings' component={Settings}/>
