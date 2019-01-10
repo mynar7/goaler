@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import LogoIcon from '@material-ui/icons/Beenhere';
 import Button from '@material-ui/core/Button';
+import darts from './darts.jpeg';
 
 import './login.css';
 
@@ -24,7 +25,7 @@ class Login extends Component {
                 <CardMedia
                     component="img"
                     alt="Inspirational Goal Image"
-                    image="/assets/darts.jpeg"/>
+                    image={darts}/>
                 <div className="login-titleCard_container">
                     <Typography variant="h2" className="login-titleCard_title" gutterBottom>
                         Welcome to <strong>GOALER</strong>
