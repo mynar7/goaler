@@ -1,5 +1,8 @@
 .login-titleCard {
     position: relative;
+    /* max-width: 960px; */
+    max-height: 450px;
+    margin: auto;
 }
 
 .login-titleCard_container {
@@ -13,8 +16,8 @@
 }
 
 h5.login-titleCard_actionCall {
-    margin-top: auto;
-    margin-bottom: 50%;
+    /* margin-top: auto; */
+    margin-top: 50px;
 }
 
 @media screen and (max-width: 768px) {
@@ -24,9 +27,9 @@ h5.login-titleCard_actionCall {
     h5.login-titleCard_subtitle {
         font-size: 1em;
     }
-    h5.login-titleCard_actionCall {
-        margin-bottom: 20%;
-    }
+    /* h5.login-titleCard_actionCall { */
+        /* margin-bottom: 20%; */
+    /* } */
 }
 
 @media screen and (max-width: 400px) {
@@ -37,6 +40,6 @@ h5.login-titleCard_actionCall {
         top: 60%;
     }
     h5.login-titleCard_actionCall {
-        margin: 0;
+        margin: 10px;
     }
 }
