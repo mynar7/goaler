@@ -38,7 +38,7 @@ class Dashboard extends React.Component {
     toggleModal = modalState => {
         this.setState({
             goalModalOpen: !this.state.goalModalOpen,
-            modalState: modalState && modalState.id ? modalState : null
+            modalState: modalState ? modalState : null
         })
     }
     render() {
@@ -71,8 +71,7 @@ class Dashboard extends React.Component {
                     }
                 </List>
                 <CenteredModal open={this.state.goalModalOpen}
-                    onClose={this.toggleModal}
-                >
+                    onClose={this.toggleModal}>
                     <GoalForm toggleModal={this.toggleModal} initialState={this.state.modalState}/>
                 </CenteredModal>
                 <br/>
@@ -83,8 +82,7 @@ class Dashboard extends React.Component {
                     variant="extended"
                     aria-label="Add"
                     id="dash-addBtn"
-                    onClick={this.toggleModal}
-                >
+                    onClick={this.toggleModal}>
                     <AddIcon />
                 </Fab>
             </div>
