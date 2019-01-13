@@ -6,10 +6,14 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Icon from '@material-ui/icons/AddAlarm'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import Icon from '@material-ui/icons/AddAlarm'
 import { withTheme } from '@material-ui/core/styles'
 import { withFirebase } from '../Firebase';
 import './goalform.css';
@@ -17,6 +21,7 @@ import './goalform.css';
 class GoalForm extends Component {
     constructor(props) {
         super(props);
+        // console.log(this.props)
         this.now = new Date();
         const addSixtySeconds = new Date(this.now.getTime() + 60000);
         const leadingZero = num => num < 10 ? "0" + num : num
@@ -24,7 +29,7 @@ class GoalForm extends Component {
         this.maxDate = `${this.now.getFullYear() + 10}-${leadingZero(this.now.getMonth() + 1)}-${leadingZero(this.now.getDate())}`
         this.currentTime = `${leadingZero(addSixtySeconds.getHours())}:${leadingZero(addSixtySeconds.getMinutes())}`;
         let initialState;
-        if (this.props.initialState) {
+        if (this.props.initialState && this.props.initialState.date) {
             const milliseconds = this.props.initialState.date;
             let date = this.today;
             let time = this.currentTime;
@@ -43,6 +48,8 @@ class GoalForm extends Component {
                 time,
                 timeErr: false,
                 timeHelper: "",
+                multigoal: this.props.initialState.multigoal ? true : false,
+                subgoal: this.props.initialState.subgoal ? true : false,
             }
         } else {
             initialState = {
@@ -55,10 +62,24 @@ class GoalForm extends Component {
                 time: this.currentTime,
                 timeErr: false,
                 timeHelper: "",
+                // multigoal: false,
+                // subgoal: false,
+                multigoal: this.props.initialState && this.props.initialState.multigoal
+                    ? true : false,
+                subgoal: this.props.initialState && this.props.initialState.subgoal
+                    ? true : false,
             }
         }
         this.state = initialState;
+        // console.log(this.state)
     }
+
+    toggleMultigoal = () => {
+        this.setState({
+            multigoal: !this.state.multigoal
+        })
+    }
+
     handleChange = name => event => {
         this.setState({
             [name]: event.target.value,
@@ -69,8 +90,8 @@ class GoalForm extends Component {
         if (prevState.name !== this.state.name ||
             prevState.date !== this.state.date ||
             prevState.time !== this.state.time) {
-                this.validate();
-            }
+            this.validate();
+        }
     }
 
     validate = () => {
@@ -105,7 +126,7 @@ class GoalForm extends Component {
             if (datetime.toDateString() !== now.toDateString()) {
                 dateErr = true;
                 dateHelper = "Date must be in future";
-            } else  {
+            } else {
                 timeErr = true;
                 timeHelper = "Time must be in future";
             }
@@ -128,27 +149,47 @@ class GoalForm extends Component {
     handleSubmit = () => {
         if (this.validate()) return;
         const dateArgs = `${this.state.date} ${this.state.time}`.split(/[- :]/)
-        .map(str => Number(str));
+            .map(str => Number(str));
         dateArgs[1]--; //month is 0 indexed
         const d = new Date(...dateArgs);
         const now = new Date();
         const n = now.getTime();
-        if (this.props.initialState) {
+        if (this.props.initialState && this.props.initialState.goal && !this.state.subgoal) {
             this.props.firebase.goalsRef.doc(this.props.initialState.id)
-            .update({
+                .update({
+                    goal: this.state.name,
+                    date: d.getTime(),
+                    multigoal: this.state.multigoal,
+                    subgoal: this.state.subgoal,
+                    completed: false,
+                    updatedAt: n
+                })
+                .then(() => {
+                    this.props.toggleModal();
+                    // this.props.initialState.closeMenu();
+                })
+        } else if (!this.state.subgoal){
+            this.props.firebase.goalsRef.add({
                 goal: this.state.name,
                 date: d.getTime(),
+                multigoal: this.state.multigoal,
+                subgoal: this.state.subgoal,
                 completed: false,
+                createdAt: n,
                 updatedAt: n
             })
             .then(() => {
                 this.props.toggleModal();
-                // this.props.initialState.closeMenu();
             })
         } else {
-            this.props.firebase.goalsRef.add({
+            // console.log(`Adding subgoal`, this.state)
+            this.props.firebase.goalsRef
+            .doc(this.props.initialState.parentGoalId)
+            .collection('subgoals').add({
                 goal: this.state.name,
                 date: d.getTime(),
+                multigoal: this.state.multigoal,
+                subgoal: this.state.subgoal,
                 completed: false,
                 createdAt: n,
                 updatedAt: n
@@ -166,10 +207,10 @@ class GoalForm extends Component {
                 <CardHeader
                     avatar={
                         <Avatar
-                        style={{
-                            backgroundColor: this.props.theme.palette.secondary.main,
-                            color: this.props.theme.palette.text.primary
-                        }}>
+                            style={{
+                                backgroundColor: this.props.theme.palette.secondary.main,
+                                color: this.props.theme.palette.text.primary
+                            }}>
                             <Icon />
                         </Avatar>
                     }
@@ -177,7 +218,7 @@ class GoalForm extends Component {
                     // subheader="With Chocolates"
                     action={
                         <IconButton onClick={this.props.toggleModal} tabIndex={-1}>
-                            <CloseIcon/>
+                            <CloseIcon />
                         </IconButton>
                     }
                 />
@@ -193,7 +234,7 @@ class GoalForm extends Component {
                                 fullWidth
                                 margin="normal"
                                 helperText={this.state.nameHelper}
-                                />
+                            />
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <TextField
@@ -231,15 +272,45 @@ class GoalForm extends Component {
                                 }}
                             />
                         </Grid>
+                        {
+                            !this.state.subgoal && !this.props.initialState.subgoalsAdded &&
+                            <Grid item xs={12} md={6}>
+                                <FormGroup row>
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                            checked={this.state.multigoal}
+                                            onChange={this.toggleMultigoal}
+                                            value={this.state.multigoal}
+                                            />
+                                        }
+                                        label={
+                                            <Typography color={
+                                                this.state.multigoal
+                                                ? "textPrimary"
+                                                : "textSecondary"
+                                                }>
+                                                Multi-Step Goal
+                                            </Typography>
+                                        }/>
+                                </FormGroup>
+                            </Grid>
+                        }
                     </Grid>
                 </CardContent>
                 <CardActions className="row right">
-                    <Button onClick={this.handleSubmit}>{this.props.initialState ? "Update" : "Add"} Goal</Button>
+                    <Button onClick={this.handleSubmit}>
+                        {
+                            this.props.initialState && this.props.initialState.goal
+                            ? "Update " : "Add "
+                        }
+                        Goal
+                    </Button>
                     <Button onClick={this.props.toggleModal}>Cancel</Button>
                 </CardActions>
             </Card>
-        )
-    }
-}
+                )
+            }
+        }
 
 export default withTheme()(withFirebase(GoalForm));

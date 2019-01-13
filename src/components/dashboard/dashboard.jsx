@@ -4,6 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 import List from '@material-ui/core/List';
 import GoalForm from './goalform';
 import GoalItem from './goalitem';
+import MultiGoalItem from './multigoalitem';
 import Clock from './clock';
 import CompletedCounter from './completedcounter';
 import CenteredModal from './centeredModal';
@@ -38,7 +39,7 @@ class Dashboard extends React.Component {
     toggleModal = modalState => {
         this.setState({
             goalModalOpen: !this.state.goalModalOpen,
-            modalState: modalState && modalState.id ? modalState : null
+            modalState: modalState ? modalState : null
         })
     }
     render() {
@@ -66,13 +67,16 @@ class Dashboard extends React.Component {
                             }
                         })
                         .map(goal => (
-                            <GoalItem key={goal.id} goal={goal} toggleModal={this.toggleModal}/>
+                            goal.multigoal
+                            ? <MultiGoalItem key={goal.id} goal={goal} 
+                            toggleModal={this.toggleModal}
+                            user={this.props.user}/>
+                            : <GoalItem key={goal.id} goal={goal} toggleModal={this.toggleModal}/>
                         ))
                     }
                 </List>
                 <CenteredModal open={this.state.goalModalOpen}
-                    onClose={this.toggleModal}
-                >
+                    onClose={this.toggleModal}>
                     <GoalForm toggleModal={this.toggleModal} initialState={this.state.modalState}/>
                 </CenteredModal>
                 <br/>
@@ -83,8 +87,7 @@ class Dashboard extends React.Component {
                     variant="extended"
                     aria-label="Add"
                     id="dash-addBtn"
-                    onClick={this.toggleModal}
-                >
+                    onClick={this.toggleModal}>
                     <AddIcon />
                 </Fab>
             </div>

@@ -6,44 +6,44 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import LinearProgress from '@material-ui/core/LinearProgress';
+// import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+// import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-// import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import { withTheme } from '@material-ui/core/styles';
 import { withFirebase } from '../Firebase';
+import MultiGoalList from './multigoallist';
 import Timer from './timer';
 import TimeDue from './timedue';
 import TimeStamp from './timestamp';
 import TimerCompleted from './timercompleted';
-import './goalitem.css';
+import './multigoalitem.css';
 
-class GoalItem extends Component {
+class MultiGoalItem extends Component {
     constructor(props) {
         super(props);
+        // console.log(props)
         this.state = {
             anchorEl: null,
-            timeView: true
+            timeView: true,
+            subgoalsOpen: props.goal.multigoal ? false : null,
+            progress: 0,
+            subgoalsAdded: false,
+            loading: true,
+            deleteInProgress: false,
         };
         this.goalRef = props.goal.subgoal
         ? props.firebase.goalsRef.doc(`${props.parentGoal.id}/subgoals/${props.goal.id}`)
         : props.firebase.goalsRef.doc(props.goal.id);
     }
-
-    componentDidMount() {
-        if (this.props.deleteSelf) {
-            this.goalRef.delete();
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        // console.log("I rendered with", {props: this.props})
-        if (prevProps.deleteSelf !== this.props.deleteSelf && this.props.deleteSelf) {
-            this.goalRef.delete();
-        }
-    }
+    // componentDidUpdate() {
+    //     console.log("I rendered with", {props: this.props})
+    // }
     handleMenuClick = event => {
         this.setState({ anchorEl: event.currentTarget });
     };
@@ -76,13 +76,14 @@ class GoalItem extends Component {
     }
     triggerModal = (subgoal) => {
         if (subgoal) {
-            console.log(subgoal)
+            // console.log(subgoal)
             this.props.toggleModal({
                 parentGoalName: this.props.goal.goal,
                 parentGoalDate: this.props.goal.date,
                 parentGoalId: this.props.goal.id,
                 multigoal: false,
-                subgoal: true
+                subgoal: true,
+                subgoalsAdded: this.state.subgoalsAdded
                 // closeMenu: this.handleClose
             })
         } else {
@@ -91,15 +92,24 @@ class GoalItem extends Component {
                 date: this.props.goal.date,
                 id: this.props.goal.id,
                 multigoal: this.props.goal.multigoal,
-                subgoal: this.props.goal.subgoal
+                subgoal: this.props.goal.subgoal,
+                subgoalsAdded: this.state.subgoalsAdded
                 // closeMenu: this.handleClose
             })
         }
         this.handleClose();
     }
-    handleDelete = () =>{
-        this.goalRef.delete();
+    startDelete = () => {
+        // this.goalRef.delete();
+        this.setState({
+            subgoalsOpen: true,
+            deleteInProgress: true,
+        })
         this.handleClose();
+    }
+
+    finishDelete = () => {
+        this.goalRef.delete();
     }
 
     toggleTimeView = () => {
@@ -107,18 +117,36 @@ class GoalItem extends Component {
             timeView: !this.state.timeView
         })
     }
+    toggleSubgoals = () => {
+        this.setState({
+            subgoalsOpen: !this.state.subgoalsOpen
+        })
+    }
+
+    updateProgress = newPercentage => {
+        // console.log(newPercentage)
+        this.setState({
+            progress: newPercentage,
+            subgoalsAdded: isNaN(newPercentage) ? false : true,
+            loading: false
+        });
+        if (newPercentage === 100 && !this.props.goal.completed) {
+            this.handleCompleteToggle();
+        } else if (newPercentage !== 100 && this.props.goal.completed) {
+            this.handleCompleteToggle();
+        }
+    }
 
     render() {
         const { anchorEl } = this.state;
         const open = Boolean(anchorEl);
         return (
             <React.Fragment>
-                <ListItem className={this.props.goal.subgoal ? "goalItem-indent" : ""}
+                <ListItem className={this.props.goal.subgoal ? "goalitem-indent" : ""}
                     button onClick={this.toggleTimeView}>
                     {
                         this.state.timeView
                         ? <ListItemText
-                        // className={}
                         primary={this.props.goal.goal}
                         secondary={this.props.goal.completed
                             ? <TimeStamp completed={this.props.goal.completedAt} />
@@ -131,7 +159,6 @@ class GoalItem extends Component {
                         secondaryTypographyProps={{ color: 'error' }}
                         />
                         : <ListItemText
-                        // className={this.props.goal.completed ? "goalitem-strike" : ""}
                         primary={this.props.goal.goal}
                         secondary={this.props.goal.completed
                             ? <React.Fragment>
@@ -153,13 +180,22 @@ class GoalItem extends Component {
 
                     }
                     <ListItemSecondaryAction>
-                        <IconButton onClick={this.handleCompleteToggle}>
-                            {
-                                this.props.goal.completed
-                                ? <CheckBoxIcon color="secondary"/>
-                                : <CheckBoxOutlineBlankIcon />
-                            }
-                        </IconButton>
+                        {
+                            this.state.subgoalsAdded
+                            ? !this.state.loading && 
+                            <IconButton onClick={this.toggleSubgoals}>
+                                {
+                                    this.state.subgoalsOpen
+                                    ? <ExpandLess/>
+                                    : <ExpandMore/>
+                                }
+                            </IconButton>
+                            : !this.state.loading &&
+                            <IconButton variant="raised"
+                                onClick={() => this.triggerModal(true)}>
+                                <AddIcon />
+                            </IconButton>
+                        }
                         <IconButton onClick={this.handleMenuClick}>
                             <MoreVertIcon />
                         </IconButton>
@@ -169,6 +205,16 @@ class GoalItem extends Component {
                             open={open}
                             onClose={this.handleClose}>
                             {
+                                this.props.goal.multigoal &&
+                                //trigger modal with subgoal flag
+                                <MenuItem onClick={() => this.triggerModal(true)}>
+                                    <ListItemIcon>
+                                        <AddIcon color={'inherit'}/>
+                                    </ListItemIcon>
+                                    <ListItemText inset primary="Add Sub Goal" />
+                                </MenuItem>
+                            }
+                            {
                                 !this.props.goal.completed &&
                                 <MenuItem onClick={() => this.triggerModal(false)}>
                                     <ListItemIcon>
@@ -177,7 +223,7 @@ class GoalItem extends Component {
                                     <ListItemText inset primary="Edit" />
                                 </MenuItem>
                             }
-                            <MenuItem onClick={this.handleDelete}>
+                            <MenuItem onClick={this.startDelete}>
                                 <ListItemIcon>
                                     <DeleteIcon nativeColor={this.props.theme.palette.warn[500]}/>
                                 </ListItemIcon>
@@ -186,9 +232,25 @@ class GoalItem extends Component {
                         </Menu>
                     </ListItemSecondaryAction>
                 </ListItem>
+                {
+                    !this.state.loading && this.state.subgoalsAdded &&
+                    <LinearProgress className="goalItem-progress"
+                        color="secondary" variant="determinate" value={this.state.progress} />
+                }
+                {
+                    this.props.goal.multigoal &&
+                    <MultiGoalList 
+                        open={this.state.subgoalsOpen}
+                        parentGoal={this.props.goal}
+                        user={this.props.user} 
+                        toggleModal={this.props.toggleModal}
+                        updateProgress={this.updateProgress}
+                        deleteParent={this.finishDelete}
+                        deleteInProgress={this.state.deleteInProgress}/>
+                }
             </React.Fragment>
         )
     }
 }
 
-export default withTheme()(withFirebase(GoalItem));
+export default withTheme()(withFirebase(MultiGoalItem));
