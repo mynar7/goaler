@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Icon from '@material-ui/icons/AddAlarm'
 import { withTheme } from '@material-ui/core/styles'
@@ -20,7 +21,7 @@ import './goalform.css';
 class GoalForm extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props)
+        // console.log(this.props)
         this.now = new Date();
         const addSixtySeconds = new Date(this.now.getTime() + 60000);
         const leadingZero = num => num < 10 ? "0" + num : num
@@ -70,7 +71,7 @@ class GoalForm extends Component {
             }
         }
         this.state = initialState;
-        console.log(this.state)
+        // console.log(this.state)
     }
 
     toggleMultigoal = () => {
@@ -181,7 +182,7 @@ class GoalForm extends Component {
                 this.props.toggleModal();
             })
         } else {
-            console.log(`Adding subgoal`, this.state)
+            // console.log(`Adding subgoal`, this.state)
             this.props.firebase.goalsRef
             .doc(this.props.initialState.parentGoalId)
             .collection('subgoals').add({
@@ -271,20 +272,30 @@ class GoalForm extends Component {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={12} md={6}>
-                            <FormGroup row>
-                                <FormControlLabel
-                                    control={
-                                        <Switch
+                        {
+                            !this.state.subgoal && !this.props.initialState.subgoalsAdded &&
+                            <Grid item xs={12} md={6}>
+                                <FormGroup row>
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
                                             checked={this.state.multigoal}
                                             onChange={this.toggleMultigoal}
                                             value={this.state.multigoal}
-                                        />
-                                    }
-                                    disabled={this.state.subgoal}
-                                    label="Create multi-step goal"/>
-                            </FormGroup>
-                        </Grid>
+                                            />
+                                        }
+                                        label={
+                                            <Typography color={
+                                                this.state.multigoal
+                                                ? "textPrimary"
+                                                : "textSecondary"
+                                                }>
+                                                Multi-Step Goal
+                                            </Typography>
+                                        }/>
+                                </FormGroup>
+                            </Grid>
+                        }
                     </Grid>
                 </CardContent>
                 <CardActions className="row right">

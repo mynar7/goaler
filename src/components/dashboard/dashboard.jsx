@@ -4,6 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 import List from '@material-ui/core/List';
 import GoalForm from './goalform';
 import GoalItem from './goalitem';
+import MultiGoalItem from './multigoalitem';
 import Clock from './clock';
 import CompletedCounter from './completedcounter';
 import CenteredModal from './centeredModal';
@@ -66,7 +67,11 @@ class Dashboard extends React.Component {
                             }
                         })
                         .map(goal => (
-                            <GoalItem key={goal.id} goal={goal} toggleModal={this.toggleModal}/>
+                            goal.multigoal
+                            ? <MultiGoalItem key={goal.id} goal={goal} 
+                            toggleModal={this.toggleModal}
+                            user={this.props.user}/>
+                            : <GoalItem key={goal.id} goal={goal} toggleModal={this.toggleModal}/>
                         ))
                     }
                 </List>

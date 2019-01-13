@@ -17,13 +17,16 @@
     background: #ddd;
     animation: strike 1s ease 1 forwards; 
 } */
-
-div.goalItem-indent {
+div.goalitem-indent {
     margin-left: 5%;
 }
 
 .goalitem-strike {
     animation: strike 750ms ease 1 forwards;
+}
+
+.goalItem-progress {
+    margin: 0 24px 0 16px;
 }
 
 @keyframes strike{
