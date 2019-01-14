@@ -77,7 +77,7 @@ class GoalItem extends Component {
     }
     triggerModal = (subgoal) => {
         if (subgoal) {
-            console.log(subgoal)
+            // console.log(subgoal)
             this.props.toggleModal({
                 parentGoalName: this.props.parentGoal.goal,
                 parentGoalDate: this.props.parentGoal.date,
