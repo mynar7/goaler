@@ -60,18 +60,18 @@ class MultiGoalItem extends Component {
             completed: newCompletedStatus,
             completedAt: newCompletedStatus ? ms : null
         });
-        const countRef = this.props.firebase.settingsRef.doc('completedCount');
-        countRef.get().then(doc => {
-            const data = doc.data();
-            let newCount;
-            newCompletedStatus
-                ? newCount = data.count + 1
-                : newCount = data.count - 1
-            if (newCount < 0) newCount = 0;
-            countRef.set({
-                count: newCount
-            })
-        })
+        // const countRef = this.props.firebase.settingsRef.doc('completedCount');
+        // countRef.get().then(doc => {
+        //     const data = doc.data();
+        //     let newCount;
+        //     newCompletedStatus
+        //         ? newCount = data.count + 1
+        //         : newCount = data.count - 1
+        //     if (newCount < 0) newCount = 0;
+        //     countRef.set({
+        //         count: newCount
+        //     })
+        // })
 
     }
     triggerModal = (subgoal) => {
@@ -131,9 +131,11 @@ class MultiGoalItem extends Component {
             loading: false
         });
         if (newPercentage === 100 && !this.props.goal.completed) {
-            this.handleCompleteToggle();
+            setTimeout(() => this.handleCompleteToggle(), 500)
+            // this.handleCompleteToggle();
         } else if (newPercentage !== 100 && this.props.goal.completed) {
-            this.handleCompleteToggle();
+            setTimeout(() => this.handleCompleteToggle(), 500)
+            // this.handleCompleteToggle();
         }
     }
 

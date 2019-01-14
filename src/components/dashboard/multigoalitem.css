@@ -25,8 +25,33 @@ div.goalitem-indent {
     animation: strike 750ms ease 1 forwards;
 }
 
-.goalItem-progress {
+div.goalItem-progress {
     margin: 0 24px 0 16px;
+    overflow: visible;
+    background-color: rgba(229, 199, 234, 0.274);
+}
+
+div.goalItem-progress>div::before {
+    box-shadow: 50px 0 50px rgba(255, 255, 255, 0.281);
+    border-radius: 100px;
+    content: "";
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+div.goalItem-progress>div::after {
+    background: linear-gradient(to right, #ab47bc 0%, rgba(255, 255, 255, 0.527) 90%, rgba(255, 255, 255, 0.808) 98%);
+    /* border: 1px dotted white; */
+    box-shadow: 15px 0 20px rgba(255, 255, 255, 0.281);
+    border-radius: 100px;
+    content: "";
+    width: 15%;
+    height: 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 @keyframes strike{
