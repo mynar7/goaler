@@ -23,6 +23,7 @@ import './goalitem.css';
 class GoalItem extends Component {
     constructor(props) {
         super(props);
+        // console.log(props)
         this.state = {
             anchorEl: null,
             timeView: true
@@ -78,9 +79,12 @@ class GoalItem extends Component {
         if (subgoal) {
             console.log(subgoal)
             this.props.toggleModal({
-                parentGoalName: this.props.goal.goal,
-                parentGoalDate: this.props.goal.date,
-                parentGoalId: this.props.goal.id,
+                parentGoalName: this.props.parentGoal.goal,
+                parentGoalDate: this.props.parentGoal.date,
+                parentGoalId: this.props.parentGoal.id,
+                goal: this.props.goal.goal,
+                date: this.props.goal.date,
+                id: this.props.goal.id,
                 multigoal: false,
                 subgoal: true
                 // closeMenu: this.handleClose
@@ -170,7 +174,7 @@ class GoalItem extends Component {
                             onClose={this.handleClose}>
                             {
                                 !this.props.goal.completed &&
-                                <MenuItem onClick={() => this.triggerModal(false)}>
+                                <MenuItem onClick={() => this.triggerModal(this.props.goal.subgoal)}>
                                     <ListItemIcon>
                                         <EditIcon color={'inherit'}/>
                                     </ListItemIcon>

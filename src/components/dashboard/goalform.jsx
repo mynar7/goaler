@@ -23,15 +23,16 @@ class GoalForm extends Component {
         super(props);
         // console.log(this.props)
         this.now = new Date();
-        const addSixtySeconds = new Date(this.now.getTime() + 60000);
+        const plusOneDay = new Date(this.now.getTime() + (1000 * 60 * 60 * 24));
         const leadingZero = num => num < 10 ? "0" + num : num
+        const tomorrow = `${plusOneDay.getFullYear()}-${leadingZero(plusOneDay.getMonth() + 1)}-${leadingZero(plusOneDay.getDate())}`
         this.today = `${this.now.getFullYear()}-${leadingZero(this.now.getMonth() + 1)}-${leadingZero(this.now.getDate())}`
         this.maxDate = `${this.now.getFullYear() + 10}-${leadingZero(this.now.getMonth() + 1)}-${leadingZero(this.now.getDate())}`
-        this.currentTime = `${leadingZero(addSixtySeconds.getHours())}:${leadingZero(addSixtySeconds.getMinutes())}`;
+        this.currentTime = `${leadingZero(this.now.getHours())}:${leadingZero(this.now.getMinutes())}`;
         let initialState;
         if (this.props.initialState && this.props.initialState.date) {
             const milliseconds = this.props.initialState.date;
-            let date = this.today;
+            let date = tomorrow;
             let time = this.currentTime;
             if (milliseconds > this.now.getTime()) {
                 const d = new Date(milliseconds);
@@ -56,7 +57,7 @@ class GoalForm extends Component {
                 name: "",
                 nameErr: false,
                 nameHelper: "",
-                date: this.today,
+                date: tomorrow,
                 dateErr: false,
                 dateHelper: "",
                 time: this.currentTime,
@@ -154,8 +155,13 @@ class GoalForm extends Component {
         const d = new Date(...dateArgs);
         const now = new Date();
         const n = now.getTime();
-        if (this.props.initialState && this.props.initialState.goal && !this.state.subgoal) {
-            this.props.firebase.goalsRef.doc(this.props.initialState.id)
+        if (this.props.initialState && this.props.initialState.goal) {
+            if (this.state.subgoal) {
+                // console.log(`updating sub goal`, this.state, this.props)
+                this.props.firebase.goalsRef
+                .doc(this.props.initialState.parentGoalId)
+                .collection('subgoals')
+                .doc(this.props.initialState.id)
                 .update({
                     goal: this.state.name,
                     date: d.getTime(),
@@ -168,7 +174,25 @@ class GoalForm extends Component {
                     this.props.toggleModal();
                     // this.props.initialState.closeMenu();
                 })
+            } else {
+                // console.log(`updating regular goal`, this.state, this.props)
+                this.props.firebase.goalsRef
+                .doc(this.props.initialState.id)
+                .update({
+                    goal: this.state.name,
+                    date: d.getTime(),
+                    multigoal: this.state.multigoal,
+                    subgoal: this.state.subgoal,
+                    completed: false,
+                    updatedAt: n
+                })
+                .then(() => {
+                    this.props.toggleModal();
+                    // this.props.initialState.closeMenu();
+                })
+            }
         } else if (!this.state.subgoal){
+            // console.log(`Adding regular goal`, this.state, this.props)
             this.props.firebase.goalsRef.add({
                 goal: this.state.name,
                 date: d.getTime(),
@@ -182,7 +206,7 @@ class GoalForm extends Component {
                 this.props.toggleModal();
             })
         } else {
-            // console.log(`Adding subgoal`, this.state)
+            // console.log(`Adding subgoal`, this.state, this.props)
             this.props.firebase.goalsRef
             .doc(this.props.initialState.parentGoalId)
             .collection('subgoals').add({
