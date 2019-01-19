@@ -53,13 +53,18 @@ class MultiGoalItem extends Component {
     };
 
     handleCompleteToggle = () => {
-        const d = new Date();
-        const ms = d.getTime();
-        const newCompletedStatus = !this.props.goal.completed
-        this.goalRef.update({
-            completed: newCompletedStatus,
-            completedAt: newCompletedStatus ? ms : null
-        });
+        if (document.hidden) { return; }
+        // if (this.props.goal.metadata.fromCache) return;
+        if ((this.state.progress === 100 && !this.props.goal.completed) ||
+        (this.state.progress !== 100 && this.props.goal.completed)) {
+            const d = new Date();
+            const ms = d.getTime();
+            const newCompletedStatus = !this.props.goal.completed
+            this.goalRef.update({
+                completed: newCompletedStatus,
+                completedAt: newCompletedStatus ? ms : null
+            });
+        }
         // const countRef = this.props.firebase.settingsRef.doc('completedCount');
         // countRef.get().then(doc => {
         //     const data = doc.data();
