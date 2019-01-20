@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-// import AddIcon from '@material-ui/icons/Add';
+import ReplayIcon from '@material-ui/icons/Replay';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { withTheme } from '@material-ui/core/styles';
@@ -75,10 +75,21 @@ class GoalItem extends Component {
         })
 
     }
-    triggerModal = (subgoal) => {
+    triggerModal = (subgoal, type) => {
+        let modalToggleFn;
+        switch(type) {
+            case 'edit':
+                modalToggleFn = this.props.toggleModal;
+                break;
+            case 'repeat':
+                modalToggleFn = this.props.toggleRepeatModal;
+                break;
+            default:
+                return;
+        }
         if (subgoal) {
             // console.log(subgoal)
-            this.props.toggleModal({
+            modalToggleFn({
                 parentGoalName: this.props.parentGoal.goal,
                 parentGoalDate: this.props.parentGoal.date,
                 parentGoalId: this.props.parentGoal.id,
@@ -90,7 +101,7 @@ class GoalItem extends Component {
                 // closeMenu: this.handleClose
             })
         } else {
-            this.props.toggleModal({
+            modalToggleFn({
                 goal: this.props.goal.goal,
                 date: this.props.goal.date,
                 id: this.props.goal.id,
@@ -101,6 +112,7 @@ class GoalItem extends Component {
         }
         this.handleClose();
     }
+
     handleDelete = () =>{
         this.goalRef.delete();
         this.handleClose();
@@ -174,11 +186,22 @@ class GoalItem extends Component {
                             onClose={this.handleClose}>
                             {
                                 !this.props.goal.completed &&
-                                <MenuItem onClick={() => this.triggerModal(this.props.goal.subgoal)}>
+                                <MenuItem 
+                                    onClick={() => this.triggerModal(this.props.goal.subgoal, "edit")}>
                                     <ListItemIcon>
                                         <EditIcon color={'inherit'}/>
                                     </ListItemIcon>
                                     <ListItemText inset primary="Edit" />
+                                </MenuItem>
+                            }
+                            {
+                                this.props.goal.completed &&
+                                <MenuItem
+                                    onClick={() => this.triggerModal(this.props.goal.subgoal, "repeat")}>
+                                    <ListItemIcon>
+                                        <ReplayIcon color="error" />
+                                    </ListItemIcon>
+                                    <ListItemText inset primary="Repeat"/>
                                 </MenuItem>
                             }
                             <MenuItem onClick={this.handleDelete}>

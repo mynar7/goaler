@@ -29,7 +29,7 @@ class TimeStamp extends Component {
         if (this.props.completed) {
             this.setState({
                 timeStatus: "completed",
-                completed: "Completed: " + completed.toLocaleString()
+                completed: "Done: " + completed.toLocaleString()
             })
         } else if (this.props.updated === this.props.created) {
             this.setState({

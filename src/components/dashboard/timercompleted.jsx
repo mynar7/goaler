@@ -18,7 +18,7 @@ class TimerCompleted extends Component {
     render() {
         return (
             <React.Fragment>
-                <span>{`Completed in: ${this.days}:${this.hours}:${this.minutes}:${this.seconds}`}</span><br/>
+                <span>{`Time: ${this.days}:${this.hours}:${this.minutes}:${this.seconds}`}</span><br/>
             </React.Fragment>
         )
     }

@@ -1,0 +1,17 @@
+div.repeatform-buttonGrp {
+    justify-content: center;
+}
+
+.repeatform-chipWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (max-width: 680px) {
+    div.repeatform-buttonGrp {
+        flex-direction: column;
+        padding-left: 20px;
+        flex-wrap: wrap;
+        max-height: 250px;
+    }
+}

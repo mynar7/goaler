@@ -49,9 +49,10 @@ class MultiGoalList extends Component {
                             })
                             .map(goal => (
                                 <GoalItem key={goal.id} goal={goal} 
-                                toggleModal={this.props.toggleModal} 
-                                parentGoal={this.props.parentGoal}
-                                deleteSelf={this.props.deleteInProgress}/>
+                                    toggleModal={this.props.toggleModal} 
+                                    toggleRepeatModal={this.props.toggleRepeatModal} 
+                                    parentGoal={this.props.parentGoal}
+                                    deleteSelf={this.props.deleteInProgress}/>
                             ))
                     }
                 </List>

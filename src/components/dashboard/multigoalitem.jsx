@@ -251,6 +251,7 @@ class MultiGoalItem extends Component {
                         parentGoal={this.props.goal}
                         user={this.props.user} 
                         toggleModal={this.props.toggleModal}
+                        toggleRepeatModal={this.props.toggleRepeatModal}
                         updateProgress={this.updateProgress}
                         deleteParent={this.finishDelete}
                         deleteInProgress={this.state.deleteInProgress}/>
