@@ -123,6 +123,41 @@ class RepeatForm extends Component {
         this.setState({chip: !this.state.chip})
     }
 
+    resetBadFields = () => {
+        if (this.state.minutesErr) {
+            this.setState({
+                minutes: 10,
+                minutesErr: false,
+                minutesErrMsg: "",
+                formError: false
+            });
+        }
+        if (this.state.hoursErr) {
+            this.setState({
+                hours: 1,
+                hoursErr: false,
+                hoursErrMsg: "",
+                formError: false
+            });
+        }
+        if (this.state.daysErr) {
+            this.setState({
+                days: 1,
+                daysErr: false,
+                daysErrMsg: "",
+                formError: false
+            });
+        }
+        if (this.state.weeksErr) {
+            this.setState({
+                weeks: 1,
+                weeksErr: false,
+                weeksErrMsg: "",
+                formError: false
+            });
+        }
+    }
+
     render() {
         return (
             <Card className="goalform">
@@ -169,6 +204,7 @@ class RepeatForm extends Component {
                                             name="minutes"
                                             className=""
                                             value={this.state.minutes}
+                                            onBlur={this.resetBadFields}
                                             onChange={this.handleTime}/>
                                             <span>Minute{this.state.minutes === 1 ? '' : 's'}</span>
                                     </div>
@@ -189,6 +225,7 @@ class RepeatForm extends Component {
                                             name="hours"
                                             className=""
                                             value={this.state.hours}
+                                            onBlur={this.resetBadFields}
                                             onChange={this.handleTime}/>
                                             <span>Hour{this.state.hours === 1 ? '' : 's'}</span>
                                     </div>
@@ -209,6 +246,7 @@ class RepeatForm extends Component {
                                             name="days"
                                             className=""
                                             value={this.state.days}
+                                            onBlur={this.resetBadFields}
                                             onChange={this.handleTime}/>
                                             <span>Day{this.state.days === 1 ? '' : 's'}</span>
                                     </div>
@@ -229,6 +267,7 @@ class RepeatForm extends Component {
                                             name="weeks"
                                             className=""
                                             value={this.state.weeks}
+                                            onBlur={this.resetBadFields}
                                             onChange={this.handleTime}/>
                                             <span>Week{this.state.weeks === 1 ? '' : 's'}</span>
                                     </div>
