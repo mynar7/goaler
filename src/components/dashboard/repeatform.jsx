@@ -291,7 +291,7 @@ class RepeatForm extends Component {
                     </Grid>
                 </CardContent>
                 <CardActions className="row right">
-                    <Button disabled={this.state.formError} onClick={this.handleSubmit}>
+                    <Button disabled={this.state.formError || +this.state.value === 0} onClick={this.handleSubmit}>
                         Submit
                     </Button>
                     <Button onClick={this.props.toggleRepeatModal}>Cancel</Button>
