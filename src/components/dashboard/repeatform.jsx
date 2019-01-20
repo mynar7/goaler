@@ -11,6 +11,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Chip from '@material-ui/core/Chip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import TextField from '@material-ui/core/TextField';
 import AlarmIcon from '@material-ui/icons/Alarm'
 import CloseIcon from '@material-ui/icons/Close';
 import ReplayIcon from '@material-ui/icons/Replay';
@@ -27,8 +28,58 @@ class RepeatForm extends Component {
         this.state = {
             now: d.getTime(),
             value: (1000 * 60 * 60 * 24).toString(),
-            chip: true
+            chip: true,
+            formError: false,
+            hours: 1,
+            hoursErr: false,
+            hoursErrMsg: "",
+            minutes: 10,
+            minutesErr: false,
+            minutesErrMsg: "",
+            days: 1,
+            daysErr: false,
+            daysErrMsg: "",
+            weeks: 1,
+            weeksErr: false,
+            weeksErrMsg: ""
         }
+    }
+
+    handleTime = event => {
+        const name = event.target.name;
+        let unit;
+        switch(name) {
+            case 'hours':
+                unit = 60;
+                break;
+            case 'minutes':
+                unit = 1;
+                break;
+            case 'days':
+                unit = 60 * 24;
+                break;
+            case 'weeks':
+                unit = 60 * 24 * 7;
+                break;
+            default:
+                break;
+        }
+        const num = Number(event.target.value)
+        let Err;
+        let ErrMsg;
+        let hasError = false;
+        if (num <= 0 || isNaN(num)) {
+            Err = true;
+            ErrMsg = "Time > 0"
+            hasError = true;
+        }
+        this.setState({
+            [name]: event.target.value,
+            [name + "Err"]: Err,
+            [ name + "ErrMsg"]: ErrMsg,
+            formError: hasError,
+            value: (1000 * 60 * unit * num).toString()
+        })
     }
 
     handleChange = event => {
@@ -102,12 +153,86 @@ class RepeatForm extends Component {
                                 name="repeatTime"
                                 value={this.state.value}
                                 onChange={this.handleChange}>
-                                <FormControlLabel value={(1000 * 60 * 60 * 12).toString()} control={<Radio />} label="12 Hours" />
-                                <FormControlLabel value={(1000 * 60 * 60 * 24).toString()} control={<Radio />} label="24 Hours" />
-                                <FormControlLabel value={(1000 * 60 * 60 * 36).toString()} control={<Radio />} label="36 Hours" />
-                                <FormControlLabel value={(1000 * 60 * 60 * 48).toString()} control={<Radio />} label="48 Hours" />
-                                <FormControlLabel value={(1000 * 60 * 60 * 24 * 7).toString()} control={<Radio />} label="One Week" />
-                                <FormControlLabel value={(1000 * 60 * 60 * 24 * 14).toString()} control={<Radio />} label="Two Weeks" />
+                                <FormControlLabel value={(1000 * 60 * this.state.minutes).toString()} control={<Radio />} label={
+                                    <div className="repeatform-hourInput-wrapper">
+                                        <TextField
+                                            classes={{root: "repeatform-hourInput"}}
+                                            type="number"
+                                            error={this.state.minutesErr}
+                                            helperText={this.state.minutesErrMsg}
+                                            inputProps={{
+                                                step: 1,
+                                                min: 1,
+                                                required: true
+                                            }}
+                                            // label="Hours"
+                                            name="minutes"
+                                            className=""
+                                            value={this.state.minutes}
+                                            onChange={this.handleTime}/>
+                                            <span>Minute{this.state.minutes === 1 ? '' : 's'}</span>
+                                    </div>
+                                } />
+                                <FormControlLabel value={(1000 * 60 * 60 * this.state.hours).toString()} control={<Radio />} label={
+                                    <div className="repeatform-hourInput-wrapper">
+                                        <TextField
+                                            classes={{root: "repeatform-hourInput"}}
+                                            type="number"
+                                            error={this.state.hoursErr}
+                                            helperText={this.state.hoursErrMsg}
+                                            inputProps={{
+                                                step: 1,
+                                                min: 1,
+                                                required: true
+                                            }}
+                                            // label="Hours"
+                                            name="hours"
+                                            className=""
+                                            value={this.state.hours}
+                                            onChange={this.handleTime}/>
+                                            <span>Hour{this.state.hours === 1 ? '' : 's'}</span>
+                                    </div>
+                                } />
+                                <FormControlLabel value={(1000 * 60 * 60 * 24 * this.state.days).toString()} control={<Radio />} label={
+                                    <div className="repeatform-hourInput-wrapper">
+                                        <TextField
+                                            classes={{root: "repeatform-hourInput"}}
+                                            type="number"
+                                            error={this.state.daysErr}
+                                            helperText={this.state.daysErrMsg}
+                                            inputProps={{
+                                                step: 1,
+                                                min: 1,
+                                                required: true
+                                            }}
+                                            // label="Hours"
+                                            name="days"
+                                            className=""
+                                            value={this.state.days}
+                                            onChange={this.handleTime}/>
+                                            <span>Day{this.state.days === 1 ? '' : 's'}</span>
+                                    </div>
+                                } />
+                                <FormControlLabel value={(1000 * 60 * 60 * 24 * 7 * this.state.weeks).toString()} control={<Radio />} label={
+                                    <div className="repeatform-hourInput-wrapper">
+                                        <TextField
+                                            classes={{root: "repeatform-hourInput"}}
+                                            type="number"
+                                            error={this.state.weeksErr}
+                                            helperText={this.state.weeksErrMsg}
+                                            inputProps={{
+                                                step: 1,
+                                                min: 1,
+                                                required: true
+                                            }}
+                                            // label="Hours"
+                                            name="weeks"
+                                            className=""
+                                            value={this.state.weeks}
+                                            onChange={this.handleTime}/>
+                                            <span>Week{this.state.weeks === 1 ? '' : 's'}</span>
+                                    </div>
+                                } />
                                 <FormControlLabel value={this.getMonth(1)} control={<Radio />} label="One Month" />
                                 <FormControlLabel value={this.getMonth(12)} control={<Radio />} label="One Year" />
                             </RadioGroup>
@@ -127,7 +252,7 @@ class RepeatForm extends Component {
                     </Grid>
                 </CardContent>
                 <CardActions className="row right">
-                    <Button onClick={this.handleSubmit}>
+                    <Button disabled={this.state.formError} onClick={this.handleSubmit}>
                         Submit
                     </Button>
                     <Button onClick={this.props.toggleRepeatModal}>Cancel</Button>
