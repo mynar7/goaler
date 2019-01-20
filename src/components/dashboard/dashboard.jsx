@@ -4,6 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 import List from '@material-ui/core/List';
 import GoalForm from './goalform';
 import GoalItem from './goalitem';
+import RepeatForm from './repeatform';
 import MultiGoalItem from './multigoalitem';
 import Clock from './clock';
 import CompletedCounter from './completedcounter';
@@ -16,7 +17,9 @@ class Dashboard extends React.Component {
         super(props);
         this.state = {
             goalModalOpen: false,
+            repeatModalOpen: false,
             modalState: undefined,
+            repeatModalState: undefined,
             goals: [],
             settings: {}
         };
@@ -36,12 +39,21 @@ class Dashboard extends React.Component {
             this.setState({settings});
         })
     }
+
     toggleModal = modalState => {
         this.setState({
             goalModalOpen: !this.state.goalModalOpen,
             modalState: modalState ? modalState : null
         })
     }
+
+    toggleRepeatModal = modalState => {
+        this.setState({
+            repeatModalOpen: !this.state.repeatModalOpen,
+            repeatModalState: modalState ? modalState : null
+        })
+    }
+
     render() {
         return (
             <div className="dash">
@@ -69,15 +81,22 @@ class Dashboard extends React.Component {
                         .map(goal => (
                             goal.multigoal
                             ? <MultiGoalItem key={goal.id} goal={goal} 
-                            toggleModal={this.toggleModal}
-                            user={this.props.user}/>
-                            : <GoalItem key={goal.id} goal={goal} toggleModal={this.toggleModal}/>
+                                toggleModal={this.toggleModal}
+                                toggleRepeatModal={this.toggleRepeatModal}
+                                user={this.props.user}/>
+                            : <GoalItem key={goal.id} goal={goal} 
+                                toggleModal={this.toggleModal}
+                                toggleRepeatModal={this.toggleRepeatModal}/>
                         ))
                     }
                 </List>
                 <CenteredModal open={this.state.goalModalOpen}
                     onClose={this.toggleModal}>
                     <GoalForm toggleModal={this.toggleModal} initialState={this.state.modalState}/>
+                </CenteredModal>
+                <CenteredModal open={this.state.repeatModalOpen}
+                    onClose={this.toggleRepeatModal}>
+                    <RepeatForm toggleRepeatModal={this.toggleRepeatModal} initialState={this.state.repeatModalState}/>
                 </CenteredModal>
                 <br/>
                 <br/>
