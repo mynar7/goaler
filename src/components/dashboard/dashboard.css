@@ -11,12 +11,15 @@
     flex-wrap: wrap;
     /* justify-content: center; */
     align-items: center;
-    margin: 11px 32px 11px 16px;
+    margin: 11px 32px -5px 16px;
+    position: sticky;
+    top: 10px;
+    z-index: 1;
     /* width: 100%; */
 }
 
 .dash-item {
-    margin: 5px;
+    margin: 3px;
 }
 
 .dash-item:first-child {

@@ -3,7 +3,7 @@ div.repeatform-buttonGrp {
 }
 
 .repeatform-hourInput {
-    max-width: 50px;
+    max-width: 100px;
 }
 
 .repeatform-hourInput-wrapper {
@@ -14,6 +14,10 @@ div.repeatform-buttonGrp {
 .repeatform-chipWrapper {
     display: flex;
     justify-content: center;
+}
+
+div.repeatform-goalField {
+    padding: 20px
 }
 
 @media screen and (max-width: 680px) {

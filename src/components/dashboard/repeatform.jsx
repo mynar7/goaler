@@ -12,6 +12,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Chip from '@material-ui/core/Chip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import AlarmIcon from '@material-ui/icons/Alarm'
 import CloseIcon from '@material-ui/icons/Close';
 import ReplayIcon from '@material-ui/icons/Replay';
@@ -30,19 +31,36 @@ class RepeatForm extends Component {
             value: (1000 * 60 * 60 * 24).toString(),
             chip: true,
             formError: false,
-            hours: 1,
+            hours: "1",
             hoursErr: false,
             hoursErrMsg: "",
-            minutes: 10,
+            minutes: "10",
             minutesErr: false,
             minutesErrMsg: "",
-            days: 1,
+            days: "1",
             daysErr: false,
             daysErrMsg: "",
-            weeks: 1,
+            weeks: "1",
             weeksErr: false,
-            weeksErrMsg: ""
+            weeksErrMsg: "",
+            goal: this.props.initialState.goal,
+            goalErr: false,
+            goalErrMsg: ""
         }
+    }
+    handleText = event => {
+        const goal = event.target.value;
+        let goalErr, goalErrMsg, formError;
+        if (goal === "") {
+            goalErr = true;
+            goalErrMsg = "Must have goal name";
+            formError = true;
+        } else {
+            goalErr = false;
+            goalErrMsg = "";
+            formError = false;
+        }
+        this.setState({goal, goalErr, goalErrMsg, formError});
     }
 
     handleTime = event => {
@@ -106,7 +124,7 @@ class RepeatForm extends Component {
             ? this.props.firebase.goalsRef.doc(goal.parentGoalId).collection('subgoals')
             : this.props.firebase.goalsRef
         collectionRef.add({
-            goal: goal.goal,
+            goal: this.state.goal,
             date: (+this.state.value) + this.state.now,
             multigoal: goal.multigoal,
             subgoal: goal.subgoal,
@@ -126,7 +144,7 @@ class RepeatForm extends Component {
     resetBadFields = () => {
         if (this.state.minutesErr) {
             this.setState({
-                minutes: 10,
+                minutes: "10",
                 minutesErr: false,
                 minutesErrMsg: "",
                 formError: false
@@ -134,7 +152,7 @@ class RepeatForm extends Component {
         }
         if (this.state.hoursErr) {
             this.setState({
-                hours: 1,
+                hours: "1",
                 hoursErr: false,
                 hoursErrMsg: "",
                 formError: false
@@ -142,7 +160,7 @@ class RepeatForm extends Component {
         }
         if (this.state.daysErr) {
             this.setState({
-                days: 1,
+                days: "1",
                 daysErr: false,
                 daysErrMsg: "",
                 formError: false
@@ -150,9 +168,17 @@ class RepeatForm extends Component {
         }
         if (this.state.weeksErr) {
             this.setState({
-                weeks: 1,
+                weeks: "1",
                 weeksErr: false,
                 weeksErrMsg: "",
+                formError: false
+            });
+        }
+        if (this.state.goalErr) {
+            this.setState({
+                goal: this.props.initialState.goal,
+                goalErr: false,
+                goalErrMsg: "",
                 formError: false
             });
         }
@@ -172,7 +198,7 @@ class RepeatForm extends Component {
                         </Avatar>
                     }
                     title="Repeat Goal:"
-                    // subheader="With Chocolates"
+                    // subheader={this.state.goal}
                     action={
                         <IconButton onClick={this.props.toggleRepeatModal} tabIndex={-1}>
                             <CloseIcon />
@@ -181,6 +207,22 @@ class RepeatForm extends Component {
                 />
                 <CardContent>
                     <Grid container spacing={0}>
+                        <Grid item xs={12} className="repeatform-goalField">
+                            <TextField
+                                error={this.state.goalErr}
+                                helperText={this.state.goalErrMsg}
+                                inputProps={{
+                                    step: 1,
+                                    min: 1,
+                                    required: true
+                                }}
+                                fullWidth
+                                // label="Goal"
+                                name="goal"
+                                value={this.state.goal}
+                                onBlur={this.resetBadFields}
+                                onChange={this.handleText}/>
+                        </Grid>
                         <Grid item xs={12}>
                             <RadioGroup className="repeatform-buttonGrp"
                                 row={true}
@@ -198,7 +240,13 @@ class RepeatForm extends Component {
                                             inputProps={{
                                                 step: 1,
                                                 min: 1,
-                                                required: true
+                                                required: true,
+                                            }}
+                                            InputProps={{
+                                                endAdornment: 
+                                                <InputAdornment position="end">
+                                                    Minute{this.state.minutes === "1" ? '' : 's'}
+                                                </InputAdornment>
                                             }}
                                             // label="Hours"
                                             name="minutes"
@@ -206,7 +254,7 @@ class RepeatForm extends Component {
                                             value={this.state.minutes}
                                             onBlur={this.resetBadFields}
                                             onChange={this.handleTime}/>
-                                            <span>Minute{this.state.minutes === 1 ? '' : 's'}</span>
+                                            {/* <span>Minute{this.state.minutes === "1" ? '' : 's'}</span> */}
                                     </div>
                                 } />
                                 <FormControlLabel value={(1000 * 60 * 60 * this.state.hours).toString()} control={<Radio />} label={
@@ -221,13 +269,19 @@ class RepeatForm extends Component {
                                                 min: 1,
                                                 required: true
                                             }}
+                                            InputProps={{
+                                                endAdornment: 
+                                                <InputAdornment position="end">
+                                                    Hour{this.state.hours === "1" ? '' : 's'}
+                                                </InputAdornment>
+                                            }}
                                             // label="Hours"
                                             name="hours"
                                             className=""
                                             value={this.state.hours}
                                             onBlur={this.resetBadFields}
                                             onChange={this.handleTime}/>
-                                            <span>Hour{this.state.hours === 1 ? '' : 's'}</span>
+                                            {/* <span>Hour{this.state.hours === "1" ? '' : 's'}</span> */}
                                     </div>
                                 } />
                                 <FormControlLabel value={(1000 * 60 * 60 * 24 * this.state.days).toString()} control={<Radio />} label={
@@ -242,13 +296,19 @@ class RepeatForm extends Component {
                                                 min: 1,
                                                 required: true
                                             }}
+                                            InputProps={{
+                                                endAdornment: 
+                                                <InputAdornment position="end">
+                                                    Day{this.state.days === "1" ? '' : 's'}
+                                                </InputAdornment>
+                                            }}
                                             // label="Hours"
                                             name="days"
                                             className=""
                                             value={this.state.days}
                                             onBlur={this.resetBadFields}
                                             onChange={this.handleTime}/>
-                                            <span>Day{this.state.days === 1 ? '' : 's'}</span>
+                                            {/* <span>Day{this.state.days === "1" ? '' : 's'}</span> */}
                                     </div>
                                 } />
                                 <FormControlLabel value={(1000 * 60 * 60 * 24 * 7 * this.state.weeks).toString()} control={<Radio />} label={
@@ -263,13 +323,19 @@ class RepeatForm extends Component {
                                                 min: 1,
                                                 required: true
                                             }}
+                                            InputProps={{
+                                                endAdornment: 
+                                                <InputAdornment position="end">
+                                                    Week{this.state.weeks === "1" ? '' : 's'}
+                                                </InputAdornment>
+                                            }}
                                             // label="Hours"
                                             name="weeks"
                                             className=""
                                             value={this.state.weeks}
                                             onBlur={this.resetBadFields}
                                             onChange={this.handleTime}/>
-                                            <span>Week{this.state.weeks === 1 ? '' : 's'}</span>
+                                            {/* <span>Week{this.state.weeks === "1" ? '' : 's'}</span> */}
                                     </div>
                                 } />
                                 <FormControlLabel value={this.getMonth(1)} control={<Radio />} label="One Month" />
