@@ -4,6 +4,7 @@ import { withFirebase } from '../Firebase';
 class CompletedCounter extends Component {
     constructor(props) {
         super(props);
+        this.unmounting = false;
         this.state = {completeCount: ""}
         // console.log(props)
     }
@@ -13,13 +14,15 @@ class CompletedCounter extends Component {
         .doc('completedCount');
 
         completedRef.onSnapshot(snapshot => {
-            if (snapshot.exists) {
-                const data = snapshot.data()
+            const data = snapshot.data()
+            if (!this.unmounting) {
                 this.setState({ completeCount: data.count })
-            } else {
-                completedRef.set({ count: 0 })
             }
         })
+    }
+
+    componentWillUnmount() {
+        this.unmounting = true;
     }
 
     render() {
