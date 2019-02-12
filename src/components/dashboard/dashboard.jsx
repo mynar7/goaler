@@ -10,18 +10,21 @@ import Clock from './clock';
 import CompletedCounter from './completedcounter';
 import CenteredModal from './centeredModal';
 import { withFirebase } from '../Firebase';
+import { initializeSettings } from '../settings/settings';
 import './dashboard.css';
 
 class Dashboard extends React.Component {
     constructor(props) {
         super(props);
+        this.unmounting = false;
         this.state = {
             goalModalOpen: false,
             repeatModalOpen: false,
             modalState: undefined,
             repeatModalState: undefined,
             goals: [],
-            settings: {}
+            settings: {},
+            settingsLoaded: false,
         };
     }
     componentDidMount = () => {
@@ -31,12 +34,19 @@ class Dashboard extends React.Component {
             snapshot.forEach(doc => goals.push({id: doc.id, ...doc.data()}))
             this.setState({goals});
         })
-        this.props.firebase.db.collection(`users/${this.props.user.uid}/settings`)
-        .onSnapshot((snapshot) => {
-            const settings = {};
-            // snapshot.forEach(doc => settings.push({id: doc.id, ...doc.data()}))
-            snapshot.forEach(doc => settings[doc.id] = {id: doc.id, ...doc.data()});
-            this.setState({settings});
+        const settingsRef = this.props.firebase.db.collection(`users/${this.props.user.uid}/settings`);
+        settingsRef.onSnapshot((snapshot) => {
+            console.log(snapshot)
+            if (!snapshot.empty) {
+                const settings = {};
+                snapshot.forEach(doc => console.log(doc));
+                snapshot.forEach(doc => settings[doc.id] = {id: doc.id, ...doc.data()});
+                if (!this.unmounting) {
+                    this.setState({settings, settingsLoaded: true});
+                }
+            } else {
+                initializeSettings(settingsRef);
+            }
         })
     }
 
@@ -53,17 +63,25 @@ class Dashboard extends React.Component {
             repeatModalState: modalState ? modalState : null
         })
     }
-
+    componentWillUnmount() {
+        this.unmounting = true;
+    }
     render() {
         return (
             <div className="dash">
                 <div className="dash-items">
-                    <div className="dash-item">
-                        <Clock />
-                    </div>
-                    <div className="dash-item">
-                        <CompletedCounter uid={this.props.user.uid}/>
-                    </div>
+                    {
+                        this.state.settingsLoaded && this.state.settings.clock.enabled &&
+                        <div className="dash-item">
+                            <Clock />
+                        </div>
+                    }
+                    {
+                        this.state.settingsLoaded && this.state.settings.completedCount.enabled &&
+                        <div className="dash-item">
+                            <CompletedCounter uid={this.props.user.uid}/>
+                        </div>
+                    }
                 </div>
                 <List>
                     {
@@ -80,11 +98,11 @@ class Dashboard extends React.Component {
                         })
                         .map(goal => (
                             goal.multigoal
-                            ? <MultiGoalItem key={goal.id} goal={goal} 
+                            ? <MultiGoalItem key={goal.id} goal={goal}
                                 toggleModal={this.toggleModal}
                                 toggleRepeatModal={this.toggleRepeatModal}
                                 user={this.props.user}/>
-                            : <GoalItem key={goal.id} goal={goal} 
+                            : <GoalItem key={goal.id} goal={goal}
                                 toggleModal={this.toggleModal}
                                 toggleRepeatModal={this.toggleRepeatModal}/>
                         ))
