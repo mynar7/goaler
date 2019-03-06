@@ -10,7 +10,7 @@ import Clock from './clock';
 import CompletedCounter from './completedcounter';
 import CenteredModal from './centeredModal';
 import { withFirebase } from '../Firebase';
-import { initializeSettings } from '../settings/settings';
+import { initializeSettings, getNewBackground } from '../settings/settings';
 import './dashboard.css';
 
 class Dashboard extends React.Component {
@@ -36,16 +36,20 @@ class Dashboard extends React.Component {
         })
         const settingsRef = this.props.firebase.db.collection(`users/${this.props.user.uid}/settings`);
         settingsRef.onSnapshot((snapshot) => {
-            console.log(snapshot)
+            // console.log(snapshot)
             if (!snapshot.empty) {
                 const settings = {};
-                snapshot.forEach(doc => console.log(doc));
+                // snapshot.forEach(doc => console.log(doc));
                 snapshot.forEach(doc => settings[doc.id] = {id: doc.id, ...doc.data()});
                 if (!this.unmounting) {
                     this.setState({settings, settingsLoaded: true});
+                    if (settings.background && settings.background.url) {
+                        document.body.style.backgroundImage = `url(${settings.background.url})`
+                    }
                 }
             } else {
                 initializeSettings(settingsRef);
+                getNewBackground(settingsRef);
             }
         })
     }

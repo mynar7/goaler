@@ -17,6 +17,18 @@ function initializeSettings(settingsRef) {
     settingsRef.doc('clock').set({ enabled: true });
 }
 
+function getNewBackground(settingsRef) {
+    fetch('https://picsum.photos/g/1920/1200/?random')
+    .then(res => {
+        if (res.status === 200) {
+            document.body.style.backgroundImage = `url(${res.url})`
+            settingsRef.doc('background').set({ url: res.url });
+        } else {
+            document.body.style.backgroundImage = 'none'
+        }
+    });
+}
+
 class Settings extends Component {
 
     constructor(props) {
@@ -130,6 +142,27 @@ class Settings extends Component {
                             </div>
                         </Grid>
                     </Grid>
+                    <Divider variant='middle' />
+                    <Grid container justify="center" className="settings__setting-row">
+                        <Grid item xs={12} md={6}>
+                            <div className="settings__column-wrapper--center">
+                                <Typography variant="h6">
+                                    Background
+                                </Typography>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <div className="settings__column-wrapper--center">
+                                {
+                                    // this.state.settings.background &&
+                                    true &&
+                                    <Button variant="contained" color="primary" onClick={() => getNewBackground(this.settingsRef)}>
+                                        Shuffle Background
+                                    </Button>
+                                }
+                            </div>
+                        </Grid>
+                    </Grid>
                 </form>
             </div>
         </Loading>
@@ -139,4 +172,4 @@ class Settings extends Component {
 
 export default withFirebase(Settings);
 
-export { initializeSettings };
+export { initializeSettings, getNewBackground };
