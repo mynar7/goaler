@@ -43,6 +43,12 @@ class App extends Component {
         this.setState({ user: null, loading: false });
       }
     })
+    fetch('https://picsum.photos/g/1920/1200/?random')
+    .then(res => {
+      res.status === 200
+      ? document.body.style.backgroundImage = `url(${res.url})`
+      : document.body.style.backgroundImage = 'none'
+    });
   }
 
   // writeTestData = () => {
