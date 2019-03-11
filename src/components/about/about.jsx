@@ -13,12 +13,16 @@ class About extends Component {
                     <Grid item xs={12} lg={8}>
                         <Card className="about-card">
                             <CardContent>
-                                <Typography variant={"h4"} align={"center"}>
+                                <Typography variant={"h3"} align={"center"}>
                                     Thanks for using Goaler!
                                 </Typography>
                                 <br/>
                                 <Typography variant={"h5"} align={"center"}>
-                                    Contact me <a href="mailto:leewarrick@gmail.com" rel="noopener noreferrer" target="_BLANK">here</a>
+                                    Contact me: <a href="mailto:leewarrick@gmail.com" rel="noopener noreferrer" target="_BLANK">leewarrick@gmail.com</a>
+                                </Typography>
+                                <br/>
+                                <Typography variant={"h6"} align={"center"}>
+                                    Background Images Courtesy of <a href="https://unsplash.com/">Unsplash</a> and <a href="https://picsum.photos">Lorem Picsum</a>
                                 </Typography>
                                 <br/>
                                 <Typography variant={"h6"} align={"center"}>

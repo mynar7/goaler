@@ -31,17 +31,17 @@ class MainMenu extends Component {
                     </ListItemIcon>
                     <ListItemText primary="Home" />
                 </ListItem>
-                <ListItem button onClick={() => this.navigate('/about')}>
-                    <ListItemIcon>
-                        <InfoIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="About" />
-                </ListItem>
                 <ListItem button onClick={() => this.navigate('/')}>
                     <ListItemIcon>
                         <GoalsIcon/>
                     </ListItemIcon>
                     <ListItemText primary="Goals" />
+                </ListItem>
+                <ListItem button onClick={() => this.navigate('/about')}>
+                    <ListItemIcon>
+                        <InfoIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="About" />
                 </ListItem>
                 <ListItem button onClick={() => this.navigate('/settings')}>
                     <ListItemIcon>
