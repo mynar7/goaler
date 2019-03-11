@@ -43,6 +43,7 @@ class App extends Component {
         this.setState({ user: null, loading: false });
       }
     })
+    document.body.style.backgroundImage = `url(https://picsum.photos/g/1920/1080?image=773)`
   }
 
   // writeTestData = () => {

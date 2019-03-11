@@ -6,14 +6,16 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import LogoIcon from '@material-ui/icons/Beenhere';
-import MenuIcon from '@material-ui/icons/Menu'
+import MenuIcon from '@material-ui/icons/Menu';
+import { withTheme } from '@material-ui/core/styles';
 import './header.css';
 
 class Header extends Component {
     render() {
         return (
             <header>
-                <AppBar position="static" className="header">
+                <AppBar position="static" className="header" 
+                    style={{backgroundColor: this.props.theme.palette.primary.main + '80' }}>
                     <Toolbar className="row">
                         <Link to="/">
                             <Button color="inherit" aria-label="Logo">
@@ -39,4 +41,4 @@ class Header extends Component {
     }
 }
 
-export default Header;
+export default withTheme()(Header);
