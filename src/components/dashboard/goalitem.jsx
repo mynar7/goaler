@@ -67,12 +67,13 @@ class GoalItem extends Component {
             let newCount;
             newCompletedStatus
                 ? newCount = data.count + 1
-                : newCount = data.count - 1
+                : newCount = data.count - 1;
             if (newCount < 0) newCount = 0;
             countRef.set({
-                count: newCount
-            })
-        })
+                count: newCount,
+                enabled: data.enabled
+            });
+        });
 
     }
     triggerModal = (subgoal, type) => {
@@ -186,7 +187,7 @@ class GoalItem extends Component {
                             onClose={this.handleClose}>
                             {
                                 !this.props.goal.completed &&
-                                <MenuItem 
+                                <MenuItem
                                     onClick={() => this.triggerModal(this.props.goal.subgoal, "edit")}>
                                     <ListItemIcon>
                                         <EditIcon color={'inherit'}/>
