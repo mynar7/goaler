@@ -92,8 +92,10 @@ class Dashboard extends React.Component {
                         this.state.goals
                         .sort((goalA, goalB) => {
                             const diff = goalA.date - goalB.date
-                            if (goalA.completed === goalB.completed) {
+                            if (goalA.completed === goalB.completed && goalA.timedgoal && goalB.timedgoal) {
                                 return diff;
+                            } else if (goalA.completed === goalB.completed && goalA.timedgoal !== goalB.timedgoal) {
+                                return goalA.timedgoal ? -1 : 1
                             } else if (goalA.completed) {
                                 return 1;
                             } else {

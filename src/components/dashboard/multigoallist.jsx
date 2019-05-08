@@ -38,19 +38,21 @@ class MultiGoalList extends Component {
                     {
                         this.state.subgoals
                             .sort((goalA, goalB) => {
-                                const diff = goalA.date - goalB.date
-                                if (goalA.completed === goalB.completed) {
-                                    return diff;
-                                } else if (goalA.completed) {
-                                    return 1;
-                                } else {
-                                    return -1;
-                                }
+                              const diff = goalA.date - goalB.date
+                              if (goalA.completed === goalB.completed && goalA.timedgoal && goalB.timedgoal) {
+                                  return diff;
+                              } else if (goalA.completed === goalB.completed && goalA.timedgoal !== goalB.timedgoal) {
+                                  return goalA.timedgoal ? -1 : 1
+                              } else if (goalA.completed) {
+                                  return 1;
+                              } else {
+                                  return -1;
+                              }
                             })
                             .map(goal => (
-                                <GoalItem key={goal.id} goal={goal} 
-                                    toggleModal={this.props.toggleModal} 
-                                    toggleRepeatModal={this.props.toggleRepeatModal} 
+                                <GoalItem key={goal.id} goal={goal}
+                                    toggleModal={this.props.toggleModal}
+                                    toggleRepeatModal={this.props.toggleRepeatModal}
                                     parentGoal={this.props.parentGoal}
                                     deleteSelf={this.props.deleteInProgress}/>
                             ))

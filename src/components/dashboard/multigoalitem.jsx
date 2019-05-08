@@ -88,7 +88,8 @@ class MultiGoalItem extends Component {
                 parentGoalId: this.props.goal.id,
                 multigoal: false,
                 subgoal: true,
-                subgoalsAdded: this.state.subgoalsAdded
+                subgoalsAdded: this.state.subgoalsAdded,
+                timedgoal: this.props.goal.timedgoal,
                 // closeMenu: this.handleClose
             })
         } else {
@@ -98,7 +99,8 @@ class MultiGoalItem extends Component {
                 id: this.props.goal.id,
                 multigoal: this.props.goal.multigoal,
                 subgoal: this.props.goal.subgoal,
-                subgoalsAdded: this.state.subgoalsAdded
+                subgoalsAdded: this.state.subgoalsAdded,
+                timedgoal: this.props.goal.timedgoal,
                 // closeMenu: this.handleClose
             })
         }
@@ -157,7 +159,7 @@ class MultiGoalItem extends Component {
                         primary={this.props.goal.goal}
                         secondary={this.props.goal.completed
                             ? <TimeStamp completed={this.props.goal.completedAt} />
-                            : <Timer date={this.props.goal.date} />
+                            : this.props.goal.timedgoal && <Timer date={this.props.goal.date} />
                         }
                         primaryTypographyProps={{
                             style: { width: '80%' },
@@ -171,12 +173,14 @@ class MultiGoalItem extends Component {
                             ? <React.Fragment>
                                 {/* <TimeStamp completed={this.props.goal.completedAt} /><br/> */}
                                 {/* <TimeStamp updated={this.props.goal.updatedAt} created={this.props.goal.createdAt}/><br/> */}
-                                <TimerCompleted completed={this.props.goal.completedAt} updated={this.props.goal.updatedAt}/>
+                                <TimerCompleted completed={this.props.goal.completedAt} updated={this.props.goal.createdAt}/>
                             </React.Fragment>
-                            :<React.Fragment>
-                                {/* <TimeStamp updated={this.props.goal.updatedAt} created={this.props.goal.createdAt}/><br/> */}
-                                <TimeDue date={this.props.goal.date}/><br/>
-                            </React.Fragment>
+                            : this.props.goal.timedgoal
+                              ? <React.Fragment>
+                                  {/* <TimeStamp updated={this.props.goal.updatedAt} created={this.props.goal.createdAt}/><br/> */}
+                                  <TimeDue date={this.props.goal.date}/><br/>
+                              </React.Fragment>
+                              : <span>{this.state.progress}% Complete</span>
                         }
                         primaryTypographyProps={{
                             style: { width: '80%' },
@@ -189,7 +193,7 @@ class MultiGoalItem extends Component {
                     <ListItemSecondaryAction>
                         {
                             this.state.subgoalsAdded
-                            ? !this.state.loading && 
+                            ? !this.state.loading &&
                             <IconButton onClick={this.toggleSubgoals}>
                                 {
                                     this.state.subgoalsOpen
@@ -246,10 +250,10 @@ class MultiGoalItem extends Component {
                 }
                 {
                     this.props.goal.multigoal &&
-                    <MultiGoalList 
+                    <MultiGoalList
                         open={this.state.subgoalsOpen}
                         parentGoal={this.props.goal}
-                        user={this.props.user} 
+                        user={this.props.user}
                         toggleModal={this.props.toggleModal}
                         toggleRepeatModal={this.props.toggleRepeatModal}
                         updateProgress={this.updateProgress}

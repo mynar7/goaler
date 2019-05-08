@@ -98,7 +98,8 @@ class GoalItem extends Component {
                 date: this.props.goal.date,
                 id: this.props.goal.id,
                 multigoal: false,
-                subgoal: true
+                subgoal: true,
+                timedgoal: this.props.goal.timedgoal,
                 // closeMenu: this.handleClose
             })
         } else {
@@ -107,7 +108,8 @@ class GoalItem extends Component {
                 date: this.props.goal.date,
                 id: this.props.goal.id,
                 multigoal: this.props.goal.multigoal,
-                subgoal: this.props.goal.subgoal
+                subgoal: this.props.goal.subgoal,
+                timedgoal: this.props.goal.timedgoal,
                 // closeMenu: this.handleClose
             })
         }
@@ -139,7 +141,7 @@ class GoalItem extends Component {
                         primary={this.props.goal.goal}
                         secondary={this.props.goal.completed
                             ? <TimeStamp completed={this.props.goal.completedAt} />
-                            : <Timer date={this.props.goal.date} />
+                            : this.props.goal.timedgoal && <Timer date={this.props.goal.date} />
                         }
                         primaryTypographyProps={{
                             style: { width: '80%' },
@@ -154,9 +156,9 @@ class GoalItem extends Component {
                             ? <React.Fragment>
                                 {/* <TimeStamp completed={this.props.goal.completedAt} /><br/> */}
                                 {/* <TimeStamp updated={this.props.goal.updatedAt} created={this.props.goal.createdAt}/><br/> */}
-                                <TimerCompleted completed={this.props.goal.completedAt} updated={this.props.goal.updatedAt}/>
+                                <TimerCompleted completed={this.props.goal.completedAt} updated={this.props.goal.createdAt}/>
                             </React.Fragment>
-                            :<React.Fragment>
+                            : this.props.goal.timedgoal && <React.Fragment>
                                 {/* <TimeStamp updated={this.props.goal.updatedAt} created={this.props.goal.createdAt}/><br/> */}
                                 <TimeDue date={this.props.goal.date}/><br/>
                             </React.Fragment>
