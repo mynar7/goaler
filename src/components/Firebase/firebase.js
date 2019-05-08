@@ -16,8 +16,8 @@ class Firebase {
         app.initializeApp(config);
         this.auth = app.auth();
         this.db = app.firestore();
-        const settings = {/* your settings... */ timestampsInSnapshots: true};
-        this.db.settings(settings);
+        // const settings = {/* your settings... */ timestampsInSnapshots: true};
+        this.db.settings({});
         // this.userRef = null;
         // this.goalsRef = null;
     }
