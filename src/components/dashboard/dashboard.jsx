@@ -93,13 +93,15 @@ class Dashboard extends React.Component {
                         .sort((goalA, goalB) => {
                             const diff = goalA.date - goalB.date
                             if (goalA.completed === goalB.completed && goalA.timedgoal && goalB.timedgoal) {
-                                return diff;
+                              return diff;
                             } else if (goalA.completed === goalB.completed && goalA.timedgoal !== goalB.timedgoal) {
                                 return goalA.timedgoal ? -1 : 1
-                            } else if (goalA.completed) {
-                                return 1;
-                            } else {
+                            } else if (goalA.completed && !goalB.completed) {
+                              return 1;
+                            } else if (!goalA.completed && goalB.completed){
                                 return -1;
+                            } else {
+                              return diff;
                             }
                         })
                         .map(goal => (
