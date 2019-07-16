@@ -68,7 +68,7 @@ class App extends Component {
 
   render() {
     return (
-      <Router basename="/Goaler">
+      <Router basename="/goaler">
         <Loading status={this.state.loading}>
           <div className="App">
           <Header user={this.state.user} login={this.signIn} toggleDrawer={this.toggleDrawer}/>
