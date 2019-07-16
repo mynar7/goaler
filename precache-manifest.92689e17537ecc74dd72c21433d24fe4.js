@@ -1,19 +1,19 @@
 self.__precacheManifest = [
   {
-    "revision": "210a7c781f5a354a0e4985656ab456d9",
-    "url": "/goaler/static/media/roboto-latin-300italic.210a7c78.woff"
+    "revision": "d69924b98acd849cdeba9fbff3f88ea6",
+    "url": "/goaler/static/media/roboto-latin-300italic.d69924b9.woff2"
   },
   {
-    "revision": "709f09e8a48486f82e3b",
-    "url": "/goaler/static/css/main.470e8bf9.chunk.css"
+    "revision": "d650ff283b0045a851c6",
+    "url": "/goaler/static/css/main.74c986e0.chunk.css"
   },
   {
     "revision": "7b770d6c53423deb1a8e49d3c9175184",
     "url": "/goaler/static/media/roboto-latin-900italic.7b770d6c.woff2"
   },
   {
-    "revision": "a33e3024720a12f2fca9",
-    "url": "/goaler/static/js/1.a33e3024.chunk.js"
+    "revision": "a1428ce17a988c679114",
+    "url": "/goaler/static/js/1.a1428ce1.chunk.js"
   },
   {
     "revision": "b20af49092a06f4414a3",
@@ -48,32 +48,28 @@ self.__precacheManifest = [
     "url": "/goaler/static/media/roboto-latin-100italic.6232f43d.woff2"
   },
   {
-    "revision": "d704bb3d579b7d5e40880c75705c8a71",
-    "url": "/goaler/static/media/roboto-latin-100italic.d704bb3d.woff"
-  },
-  {
     "revision": "e9dbbe8a693dd275c16d32feb101f1c1",
     "url": "/goaler/static/media/roboto-latin-100.e9dbbe8a.woff"
+  },
+  {
+    "revision": "d704bb3d579b7d5e40880c75705c8a71",
+    "url": "/goaler/static/media/roboto-latin-100italic.d704bb3d.woff"
   },
   {
     "revision": "a1471d1d6431c893582a5f6a250db3f9",
     "url": "/goaler/static/media/roboto-latin-300.a1471d1d.woff"
   },
   {
-    "revision": "709f09e8a48486f82e3b",
-    "url": "/goaler/static/js/main.709f09e8.chunk.js"
-  },
-  {
-    "revision": "d69924b98acd849cdeba9fbff3f88ea6",
-    "url": "/goaler/static/media/roboto-latin-300italic.d69924b9.woff2"
+    "revision": "d650ff283b0045a851c6",
+    "url": "/goaler/static/js/main.d650ff28.chunk.js"
   },
   {
     "revision": "bafb105baeb22d965c70fe52ba6b49d9",
     "url": "/goaler/static/media/roboto-latin-400.bafb105b.woff"
   },
   {
-    "revision": "de8b7431b74642e830af4d4f4b513ec9",
-    "url": "/goaler/static/media/roboto-latin-500.de8b7431.woff"
+    "revision": "210a7c781f5a354a0e4985656ab456d9",
+    "url": "/goaler/static/media/roboto-latin-300italic.210a7c78.woff"
   },
   {
     "revision": "d8bcbe724fd6f4ba44d0ee6a2675890f",
@@ -84,8 +80,8 @@ self.__precacheManifest = [
     "url": "/goaler/static/media/roboto-latin-400italic.9680d5a0.woff"
   },
   {
-    "revision": "ffcc050b2d92d4b14a4fcb527ee0bcc8",
-    "url": "/goaler/static/media/roboto-latin-500italic.ffcc050b.woff"
+    "revision": "de8b7431b74642e830af4d4f4b513ec9",
+    "url": "/goaler/static/media/roboto-latin-500.de8b7431.woff"
   },
   {
     "revision": "510dec37fa69fba39593e01a469ee018",
@@ -96,27 +92,31 @@ self.__precacheManifest = [
     "url": "/goaler/static/media/roboto-latin-700.cf6613d1.woff"
   },
   {
-    "revision": "846d1890aee87fde5d8ced8eba360c3a",
-    "url": "/goaler/static/media/roboto-latin-700italic.846d1890.woff"
+    "revision": "ffcc050b2d92d4b14a4fcb527ee0bcc8",
+    "url": "/goaler/static/media/roboto-latin-500italic.ffcc050b.woff"
   },
   {
     "revision": "010c1aeee3c6d1cbb1d5761d80353823",
     "url": "/goaler/static/media/roboto-latin-700italic.010c1aee.woff2"
   },
   {
-    "revision": "bc833e725c137257c2c42a789845d82f",
-    "url": "/goaler/static/media/roboto-latin-900italic.bc833e72.woff"
+    "revision": "846d1890aee87fde5d8ced8eba360c3a",
+    "url": "/goaler/static/media/roboto-latin-700italic.846d1890.woff"
   },
   {
     "revision": "8c2ade503b34e31430d6c98aa29a52a3",
     "url": "/goaler/static/media/roboto-latin-900.8c2ade50.woff"
   },
   {
-    "revision": "a33e3024720a12f2fca9",
+    "revision": "bc833e725c137257c2c42a789845d82f",
+    "url": "/goaler/static/media/roboto-latin-900italic.bc833e72.woff"
+  },
+  {
+    "revision": "a1428ce17a988c679114",
     "url": "/goaler/static/css/1.b300d1c1.chunk.css"
   },
   {
-    "revision": "6ac197f984fb4627e2a09dc354e057cc",
+    "revision": "7fa47beeca91bc05f63f490f39643110",
     "url": "/goaler/index.html"
   }
 ];
