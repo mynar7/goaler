@@ -2,7 +2,7 @@
   "name": "goaler",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://leewarrick.com/Goaler",
+  "homepage": "https://leewarrick.com/goaler",
   "dependencies": {
     "@material-ui/core": "^3.7.1",
     "@material-ui/icons": "^3.0.1",
