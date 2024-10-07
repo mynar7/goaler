@@ -23,8 +23,8 @@ class Firebase {
     }
     signIn = () => {
         const provider = new auth.GoogleAuthProvider();
-        return this.auth.signInWithRedirect(provider).catch(err => console.log(err));
-        // return this.auth.signInWithPopup(provider).catch(err => console.log(err));
+        // return this.auth.signInWithRedirect(provider).catch(err => console.log(err));
+        return this.auth.signInWithPopup(provider).catch(err => console.log(err));
     }
     logout = () => {
         return this.auth.signOut();
